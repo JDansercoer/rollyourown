@@ -949,7 +949,7 @@
     {
       "name": "decide",
       "address": "0x260e5299f82c57b6e88b41b83a0f09fc3b9b5fedf13f5f2859f6eee7150928e",
-      "class_hash": "0x97e5e4d9261a446bfc1c7e6279b51742c43afb359aa48be66f6053df2ef0b2",
+      "class_hash": "0x260c19a1db2cf4d447ec1019f1dbec9860f314580b3e4cc5241bdf14fa9e404",
       "abi": [
         {
           "type": "impl",
@@ -1287,7 +1287,7 @@
     {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x10edaabd934de88273004943b3bdd284d28a79411ec50c1670b523e8e763096",
+      "class_hash": "0x2ced3a20b1c73550bd6d22ccff1832096dc73644cc97b6ca43472440ecaaad0",
       "abi": [
         {
           "type": "impl",
@@ -1803,7 +1803,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x1b5637239f89d78260a14b95171da3f9fa3bde420cfa73a91f50ef1543cb833",
+      "class_hash": "0x1d89aeda2361a4c09dc103c3a51dc67b23120cb0f9104eb63ed0ad0c26a5e98",
       "abi": [
         {
           "type": "impl",
@@ -2140,7 +2140,7 @@
     {
       "name": "trade",
       "address": "0x33e7623715493a8b1bf3a0eb0938e28dcbca0ac1459594d6d662181ae5ed701",
-      "class_hash": "0x119a34d05b734b10ee4d7f00ec8248f7dd284afd130d02771b688990680c8b5",
+      "class_hash": "0x4fefe5892e0692909588e661e473dd8931a98c30a43adb87de7a85d88a0be8d",
       "abi": [
         {
           "type": "impl",
@@ -2458,7 +2458,7 @@
     {
       "name": "travel",
       "address": "0x21f6ceaba4583a3ff5d3a21ed34c6b269282d59a79cedb782c9c1d72b5537dc",
-      "class_hash": "0x7f472dd90ad66f325381d01ac6ff1ef4d4f14b13dea6d38b6d72588bc197d41",
+      "class_hash": "0x2f6b794ae11dba156eccbbf92cb74c007669502988cd4248c9e500a1b0e9a88",
       "abi": [
         {
           "type": "impl",
@@ -4139,9 +4139,19 @@
           "name": "class",
           "type": "PlayerClass",
           "key": false
+        },
+        {
+          "name": "can_use_shop",
+          "type": "bool",
+          "key": false
+        },
+        {
+          "name": "shop_last_used",
+          "type": "usize",
+          "key": false
         }
       ],
-      "class_hash": "0x69b866269e5bbc8aa7a14937c45b4b254fe03728d5be1b1b445c0d56fb8efde",
+      "class_hash": "0x26ff3f94a4d3f0d48dcb871e1fafb2f98009804f9af66fb5bd2fc9ecd27b64a",
       "abi": [
         {
           "type": "function",

@@ -17,6 +17,7 @@ fragment PlayerProps on Player {
   speed
   wanted
   game_over
+  can_use_shop
 }
 
 query PlayerEntity($gameId: String!, $playerId: String!) {

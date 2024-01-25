@@ -13,8 +13,6 @@ export const Inventory = ({ ...props }: StyleProps) => {
   const { playerEntityStore } = useDojoContext();
   const { playerEntity } = playerEntityStore;
 
-  const open = true;
-
   return (
     <VStack {...props} w="full" align="flex-start" pb="0" gap={[0, "6px"]}>
       <HStack w="full" justify={"space-between"}>
@@ -31,7 +29,7 @@ export const Inventory = ({ ...props }: StyleProps) => {
       </HStack>
 
       <HStack alignSelf="stretch" gap={4}>
-        {open ? (
+        {playerEntity?.canUseShop ? (
           <Link href={`/${gameId}/pawnshop`}>
             <Card
               h="40px"

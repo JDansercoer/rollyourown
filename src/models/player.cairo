@@ -35,6 +35,8 @@ struct Player {
     leaderboard_version: u32,
     game_over: bool,
     class: PlayerClass,
+    can_use_shop: bool,
+    shop_last_used: usize,
 }
 
 #[generate_trait]

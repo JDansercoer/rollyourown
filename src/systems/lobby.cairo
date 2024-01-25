@@ -149,6 +149,8 @@ mod lobby {
                 leaderboard_version,
                 game_over: false,
                 class,
+                can_use_shop: false,
+                shop_last_used: 0,
             };
 
             let game = Game {

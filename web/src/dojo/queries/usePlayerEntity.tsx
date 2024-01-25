@@ -1,9 +1,16 @@
-import { Player, Drug as DrugType, usePlayerEntityQuery, World__EntityEdge, Item as ItemType, Encounter } from "@/generated/graphql";
+import {
+  Player,
+  Drug as DrugType,
+  usePlayerEntityQuery,
+  World__EntityEdge,
+  Item as ItemType,
+  Encounter,
+} from "@/generated/graphql";
 import { useEffect, useMemo, useState } from "react";
 import { REFETCH_INTERVAL, SCALING_FACTOR } from "../constants";
 import { PlayerStatus, ItemEnum, ItemTextEnum } from "../types";
 import { shortString } from "starknet";
-import { profanity } from '@2toad/profanity';
+import { profanity } from "@2toad/profanity";
 
 type Drug = {
   id: string;
@@ -43,6 +50,8 @@ export class PlayerEntity {
   wanted: number;
   gameOver: boolean;
 
+  canUseShop: boolean;
+
   constructor(player: Player, drugs: Drug[], items: ShopItem[], encounters: Encounter[]) {
     this.name = profanity.censor(shortString.decodeShortString(player.name));
     this.avatarId = player.avatar_id;
@@ -71,6 +80,7 @@ export class PlayerEntity {
     this.items = items;
     this.encounters = encounters;
 
+    this.canUseShop = player.can_use_shop;
   }
 
   update(player: Player) {
@@ -78,12 +88,14 @@ export class PlayerEntity {
     this.health = player.health;
     this.turn = player.turn;
     this.drugCount = player.drug_count;
-   
+
     this.hoodId = player.hood_id;
     this.locationId = player.location_id === "Home" ? undefined : player.location_id;
     this.status = player.status;
     this.wanted = player.wanted;
     this.gameOver = player.game_over;
+
+    this.canUseShop = player.can_use_shop;
     return this;
   }
 
@@ -126,7 +138,7 @@ export class PlayerEntity {
     } else {
       this.encounters.push({
         ...newEncounter,
-        payout:Number(newEncounter.payout) / SCALING_FACTOR,
+        payout: Number(newEncounter.payout) / SCALING_FACTOR,
       });
     }
     return this;
@@ -164,8 +176,6 @@ export class PlayerEntity {
     return this.speed;
   }
 
-
-
   static create(edges: World__EntityEdge[]): PlayerEntity | undefined {
     if (!edges || edges.length === 0) return undefined;
     // player model
@@ -201,14 +211,16 @@ export class PlayerEntity {
     });
 
     // encounters
-    const encounterEdges = edges.filter((edge) => edge.node?.models?.find((model) => model?.__typename === "Encounter"));
+    const encounterEdges = edges.filter((edge) =>
+      edge.node?.models?.find((model) => model?.__typename === "Encounter"),
+    );
 
     const encounters: Encounter[] = encounterEdges.map((edge) => {
       const encounterModel = edge.node?.models?.find((model) => model?.__typename === "Encounter") as Encounter;
       return {
         ...encounterModel,
-        payout:Number(encounterModel.payout) / SCALING_FACTOR,
-      }
+        payout: Number(encounterModel.payout) / SCALING_FACTOR,
+      };
     });
 
     if (!playerModel) return undefined;
@@ -216,4 +228,3 @@ export class PlayerEntity {
     return new PlayerEntity(playerModel, drugs, items, encounters);
   }
 }
-
