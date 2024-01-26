@@ -1541,7 +1541,7 @@
     {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x4e3e8967fe43ab46d90f4c16066f768b5528821d0c8e79d08eac1fcc666c7e4",
+      "class_hash": "0x45ae3ad0b6acc94513aebe4ef0d52a8b4bc3b73dc092e6784d83f169786a493",
       "abi": [
         {
           "type": "impl",

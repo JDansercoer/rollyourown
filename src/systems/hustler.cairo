@@ -82,3 +82,17 @@ mod hustler {
     }
 }
 
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use rollyourown::models::player::Player;
+use rollyourown::utils::settings::{InitialStats, HustlerImplementation};
+
+fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustler: Hustler) {
+    let initialStats: InitialStats = hustler.get_initial_stats();
+
+    player.attack = initialStats.Attack;
+    player.defense = initialStats.Defense;
+    player.transport = initialStats.Transport;
+    player.speed = initialStats.Speed;
+
+    set!(world, (player));
+}

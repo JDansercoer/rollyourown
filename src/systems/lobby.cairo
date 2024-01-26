@@ -36,7 +36,7 @@ mod lobby {
     use rollyourown::models::market::{MarketTrait};
     use rollyourown::models::leaderboard::{Leaderboard};
     use rollyourown::models::itemNew::{ItemMetaImpl};
-    use rollyourown::systems::hustler::Hustler;
+    use rollyourown::systems::hustler::{Hustler, assignHustlerItemsToPlayer};
 
     use rollyourown::utils::settings::{
         GameSettings, GameSettingsImpl, PlayerSettings, PlayerSettingsImpl, ShopSettings,
@@ -101,7 +101,7 @@ mod lobby {
             let leaderboard_manager = LeaderboardManagerTrait::new(self.world());
             let leaderboard_version = leaderboard_manager.on_game_start();
 
-            let player = Player {
+            let mut player = Player {
                 game_id,
                 player_id: caller,
                 mainnet_address,
@@ -140,6 +140,8 @@ mod lobby {
             };
 
             set!(self.world(), (game, player));
+
+            assignHustlerItemsToPlayer(self.world(), ref player, hustler);
 
             let mut locations = LocationTrait::all();
             loop {
