@@ -4,6 +4,7 @@ mod player;
 mod drug;
 mod location;
 mod item;
+mod itemNew;
 mod encounter;
 mod leaderboard;
 mod ryo;

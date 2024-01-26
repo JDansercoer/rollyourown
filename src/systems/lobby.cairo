@@ -1,7 +1,7 @@
 use starknet::ContractAddress;
 use rollyourown::models::game::{GameMode};
 use rollyourown::models::player::PlayerClass;
-use rollyourown::models::item::{ItemTier};
+use rollyourown::models::itemNew::ItemTier;
 
 #[derive(Copy, Drop, Serde)]
 struct Items {
@@ -60,7 +60,7 @@ mod lobby {
     use rollyourown::models::location::{Location, LocationTrait, LocationEnum};
     use rollyourown::models::market::{MarketTrait};
     use rollyourown::models::leaderboard::{Leaderboard};
-    use rollyourown::models::item::{ItemMetaImpl};
+    use rollyourown::models::itemNew::{ItemMetaImpl};
 
     use rollyourown::utils::settings::{
         GameSettings, GameSettingsImpl, PlayerSettings, PlayerSettingsImpl, ShopSettings,

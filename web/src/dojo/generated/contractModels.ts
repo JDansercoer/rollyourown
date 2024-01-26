@@ -65,14 +65,29 @@ export function defineContractComponents(world: World) {
           level: RecsType.Number,
           name: RecsType.BigInt,
           value: RecsType.Number,
-          tier: RecsType.Number,
           stat: RecsType.Number,
-          newName: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            types: ["u8","felt252","usize","ItemTier","ItemEnum","ItemName"],
+            types: ["u8","felt252","usize","ItemEnum"],
+          },
+        }
+      );
+    })(),
+    ItemNew: (() => {
+      const name = "ItemNew";
+      return defineComponent(
+        world,
+        {
+          level: RecsType.Number,
+          tier: RecsType.Number,
+          stat: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            types: ["u8","ItemTier","ItemStat"],
           },
         }
       );

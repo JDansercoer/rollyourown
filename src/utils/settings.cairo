@@ -1,8 +1,8 @@
-use rollyourown::models::item::ItemMeta;
 use rollyourown::constants::SCALING_FACTOR;
 use rollyourown::models::game::GameMode;
 use rollyourown::models::drug::DrugEnum;
-use rollyourown::models::item::{ItemEnum, ItemTier, ItemName};
+use rollyourown::models::item::{ItemEnum};
+use rollyourown::models::itemNew::{ItemTier, ItemName, ItemMetaImpl, ItemStat};
 use rollyourown::models::player::{Player, PlayerClass};
 
 
@@ -419,9 +419,9 @@ fn pricing_clicksave(drug_id: DrugEnum) -> PriceSettings {
     }
 }
 
-fn getStatValueAndCost(stat: ItemEnum, tier: ItemTier) -> (usize, u128) {
+fn getStatValueAndCost(stat: ItemStat, tier: ItemTier) -> (usize, u128) {
     let (statValue, unscaledCost) = match stat {
-        ItemEnum::Attack => {
+        ItemStat::DMG => {
             match tier {
                 ItemTier::Tier1 => (8, 0),
                 ItemTier::Tier2 => (12, 400),
@@ -431,7 +431,7 @@ fn getStatValueAndCost(stat: ItemEnum, tier: ItemTier) -> (usize, u128) {
                 ItemTier::Tier6 => (60, 420000),
             }
         },
-        ItemEnum::Defense => {
+        ItemStat::DEF => {
             match tier {
                 ItemTier::Tier1 => (10, 0),
                 ItemTier::Tier2 => (14, 300),
@@ -441,17 +441,7 @@ fn getStatValueAndCost(stat: ItemEnum, tier: ItemTier) -> (usize, u128) {
                 ItemTier::Tier6 => (75, 388000),
             }
         },
-        ItemEnum::Transport => {
-            match tier {
-                ItemTier::Tier1 => (0, 0),
-                ItemTier::Tier2 => (60, 0),
-                ItemTier::Tier3 => (90, 2000),
-                ItemTier::Tier4 => (130, 24000),
-                ItemTier::Tier5 => (200, 288000),
-                ItemTier::Tier6 => (200, 0),
-            }
-        },
-        ItemEnum::Speed => {
+        ItemStat::SPD => {
             match tier {
                 ItemTier::Tier1 => (8, 0),
                 ItemTier::Tier2 => (12, 275),
@@ -459,6 +449,16 @@ fn getStatValueAndCost(stat: ItemEnum, tier: ItemTier) -> (usize, u128) {
                 ItemTier::Tier4 => (27, 9600),
                 ItemTier::Tier5 => (40, 57600),
                 ItemTier::Tier6 => (60, 345600),
+            }
+        },
+        ItemStat::INV => {
+            match tier {
+                ItemTier::Tier1 => (0, 0),
+                ItemTier::Tier2 => (60, 0),
+                ItemTier::Tier3 => (90, 2000),
+                ItemTier::Tier4 => (130, 24000),
+                ItemTier::Tier5 => (200, 288000),
+                ItemTier::Tier6 => (200, 0),
             }
         },
     };
