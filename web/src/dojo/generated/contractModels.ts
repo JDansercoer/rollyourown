@@ -16,7 +16,7 @@ export function defineContractComponents(world: World) {
             name: name,
             types: ["usize"],
           },
-        }
+        },
       );
     })(),
     Encounter: (() => {
@@ -32,9 +32,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["u8","u8","u128","u8"],
+            types: ["u8", "u8", "u128", "u8"],
           },
-        }
+        },
       );
     })(),
     Game: (() => {
@@ -52,9 +52,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["GameMode","u64","usize","usize","usize","ContractAddress"],
+            types: ["GameMode", "u64", "usize", "usize", "usize", "ContractAddress"],
           },
-        }
+        },
       );
     })(),
     Item: (() => {
@@ -70,9 +70,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["u8","felt252","usize","ItemEnum"],
+            types: ["u8", "felt252", "usize", "ItemEnum"],
           },
-        }
+        },
       );
     })(),
     ItemNew: (() => {
@@ -87,9 +87,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["u8","ItemTier","ItemStat"],
+            types: ["u8", "ItemTier", "ItemStat"],
           },
-        }
+        },
       );
     })(),
     Leaderboard: (() => {
@@ -103,9 +103,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["u128","u64"],
+            types: ["u128", "u64"],
           },
-        }
+        },
       );
     })(),
     Market: (() => {
@@ -119,9 +119,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["u128","usize"],
+            types: ["u128", "usize"],
           },
-        }
+        },
       );
     })(),
     Player: (() => {
@@ -156,9 +156,33 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["ContractAddress","felt252","u8","PlayerStatus","LocationEnum","LocationEnum","LocationEnum","usize","usize","u8","u128","u8","usize","usize","usize","usize","usize","u8","u32","bool","Hustler","bool","usize"],
+            types: [
+              "ContractAddress",
+              "felt252",
+              "u8",
+              "PlayerStatus",
+              "LocationEnum",
+              "LocationEnum",
+              "LocationEnum",
+              "usize",
+              "usize",
+              "u8",
+              "u128",
+              "u8",
+              "usize",
+              "usize",
+              "usize",
+              "usize",
+              "usize",
+              "u8",
+              "u32",
+              "bool",
+              "Hustler",
+              "bool",
+              "usize",
+            ],
           },
-        }
+        },
       );
     })(),
     RyoMeta: (() => {
@@ -172,9 +196,9 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            types: ["bool","u32"],
+            types: ["bool", "u32"],
           },
-        }
+        },
       );
     })(),
   };
