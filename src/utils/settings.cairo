@@ -3,7 +3,8 @@ use rollyourown::models::game::GameMode;
 use rollyourown::models::drug::DrugEnum;
 use rollyourown::models::item::{ItemEnum};
 use rollyourown::models::itemNew::{ItemTier, ItemName, ItemMetaImpl, ItemStat};
-use rollyourown::models::player::{Player, PlayerClass};
+use rollyourown::models::player::Player;
+use rollyourown::systems::hustler::Hustler;
 
 
 #[derive(Copy, Drop, Serde)]
@@ -104,10 +105,6 @@ trait PlayerSettingsTrait<T> {
     fn get(game_mode: GameMode, player: @Player) -> T;
 }
 
-trait ClassSettingsTrait<T> {
-    fn get(game_mode: GameMode, class: PlayerClass) -> T;
-}
-
 trait ItemSettingsTrait<T> {
     fn get(game_mode: GameMode, item_id: ItemEnum, level: u8) -> T;
 }
@@ -132,18 +129,16 @@ impl GameSettingsImpl of SettingsTrait<GameSettings> {
     }
 }
 
-impl PlayerSettingsImpl of ClassSettingsTrait<PlayerSettings> {
-    fn get(game_mode: GameMode, class: PlayerClass) -> PlayerSettings {
-        let initialStats: InitialStats = class.get_initial_stats();
-
+impl PlayerSettingsImpl of SettingsTrait<PlayerSettings> {
+    fn get(game_mode: GameMode) -> PlayerSettings {
         let mut player_settings = PlayerSettings {
             health: 100,
             cash: 1420_u128 * SCALING_FACTOR,
             wanted: 39,
-            attack: initialStats.Attack,
-            defense: initialStats.Defense,
-            transport: initialStats.Transport,
-            speed: initialStats.Speed,
+            attack: 0,
+            defense: 0,
+            transport: 0,
+            speed: 0,
         };
 
         if game_mode == GameMode::Test {
@@ -482,27 +477,27 @@ struct InitialStats {
     Speed: usize,
 }
 
-trait ClassTrait {
-    fn get_initial_items(self: PlayerClass) -> InitialItems;
-    fn get_initial_stats(self: PlayerClass) -> InitialStats;
+trait HustlerTrait {
+    fn get_initial_items(self: Hustler) -> InitialItems;
+    fn get_initial_stats(self: Hustler) -> InitialStats;
 }
 
-impl ClassImplementation of ClassTrait {
-    fn get_initial_items(self: PlayerClass) -> InitialItems {
+impl HustlerImplementation of HustlerTrait {
+    fn get_initial_items(self: Hustler) -> InitialItems {
         match self {
-            PlayerClass::Dragon => InitialItems {
+            Hustler::Dragon => InitialItems {
                 Attack: ItemName::AK47,
                 Defense: ItemName::BloodStainedShirt,
                 Transport: ItemName::PlasticBag,
                 Speed: ItemName::AllBlackSneakers,
             },
-            PlayerClass::Monkey => InitialItems {
+            Hustler::Monkey => InitialItems {
                 Attack: ItemName::Chain,
                 Defense: ItemName::BulletProofVest,
                 Transport: ItemName::PlasticBag,
                 Speed: ItemName::AthleticTrainers,
             },
-            PlayerClass::Rabbit => InitialItems {
+            Hustler::Rabbit => InitialItems {
                 Attack: ItemName::BaseballBat,
                 Defense: ItemName::TrenchCoat,
                 Transport: ItemName::PlasticBag,
@@ -511,7 +506,7 @@ impl ClassImplementation of ClassTrait {
         }
     }
 
-    fn get_initial_stats(self: PlayerClass) -> InitialStats {
+    fn get_initial_stats(self: Hustler) -> InitialStats {
         let initialItems: InitialItems = self.get_initial_items();
 
         let initialAttackItem = initialItems.Attack;

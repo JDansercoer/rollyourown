@@ -1,30 +1,7 @@
 use starknet::ContractAddress;
 use rollyourown::models::game::{GameMode};
-use rollyourown::models::player::PlayerClass;
 use rollyourown::models::itemNew::ItemTier;
-
-#[derive(Copy, Drop, Serde)]
-struct Items {
-    attackItem: felt252,
-    defenseItem: felt252,
-    transportItem: felt252,
-    speedItem: felt252,
-}
-
-#[derive(Copy, Drop, Serde)]
-struct InitialTiers {
-    attackTier: ItemTier,
-    defenseTier: ItemTier,
-    transportTier: ItemTier,
-    speedTier: ItemTier,
-}
-
-#[derive(Copy, Drop, Serde)]
-struct AvailableClasses {
-    class: PlayerClass,
-    items: Items,
-    initialTiers: InitialTiers,
-}
+use rollyourown::systems::hustler::Hustler;
 
 #[starknet::interface]
 trait ILobby<TContractState> {
@@ -32,7 +9,7 @@ trait ILobby<TContractState> {
         self: @TContractState,
         game_mode: GameMode,
         player_name: felt252,
-        class: PlayerClass,
+        hustler: Hustler,
         avatar_id: u8,
         mainnet_address: ContractAddress
     ) -> (u32, ContractAddress);
@@ -40,8 +17,6 @@ trait ILobby<TContractState> {
     fn set_name(
         self: @TContractState, game_id: u32, player_id: ContractAddress, player_name: felt252
     );
-
-    fn get_available_classes(self: @TContractState) -> Span<AvailableClasses>;
 }
 
 
@@ -53,7 +28,7 @@ mod lobby {
     use starknet::get_block_timestamp;
     use starknet::info::get_tx_info;
 
-    use rollyourown::models::player::{Player, PlayerTrait, PlayerStatus, PlayerClass};
+    use rollyourown::models::player::{Player, PlayerTrait, PlayerStatus};
     use rollyourown::models::game::{Game, GameMode};
     use rollyourown::models::market::Market;
     use rollyourown::models::drug::{Drug, DrugTrait};
@@ -61,17 +36,18 @@ mod lobby {
     use rollyourown::models::market::{MarketTrait};
     use rollyourown::models::leaderboard::{Leaderboard};
     use rollyourown::models::itemNew::{ItemMetaImpl};
+    use rollyourown::systems::hustler::Hustler;
 
     use rollyourown::utils::settings::{
         GameSettings, GameSettingsImpl, PlayerSettings, PlayerSettingsImpl, ShopSettings,
-        ShopSettingsImpl, ClassImplementation
+        ShopSettingsImpl
     };
     use rollyourown::utils::market;
     use rollyourown::utils::random::{Random, RandomImpl};
     use rollyourown::utils::leaderboard::{LeaderboardManager, LeaderboardManagerTrait};
 
 
-    use super::{ILobby, AvailableClasses, Items, InitialTiers};
+    use super::ILobby;
 
 
     #[event]
@@ -104,7 +80,7 @@ mod lobby {
             self: @ContractState,
             game_mode: GameMode,
             player_name: felt252,
-            class: PlayerClass,
+            hustler: Hustler,
             avatar_id: u8,
             mainnet_address: ContractAddress,
         ) -> (u32, ContractAddress) {
@@ -117,7 +93,7 @@ mod lobby {
             let start_time = get_block_timestamp();
 
             let game_settings = GameSettingsImpl::get(game_mode);
-            let player_settings = PlayerSettingsImpl::get(game_mode, class);
+            let player_settings = PlayerSettingsImpl::get(game_mode);
             let shop_settings = ShopSettingsImpl::get(game_mode);
 
             let mut randomizer = RandomImpl::new(self.world());
@@ -148,7 +124,7 @@ mod lobby {
                 speed: player_settings.speed,
                 leaderboard_version,
                 game_over: false,
-                class,
+                hustler,
                 can_use_shop: false,
                 shop_last_used: 0,
             };
@@ -201,43 +177,6 @@ mod lobby {
             player.name = player_name;
 
             set!(self.world(), (player))
-        }
-
-        fn get_available_classes(self: @ContractState) -> Span<AvailableClasses> {
-            let mut classes = array![
-                PlayerClass::Dragon, PlayerClass::Monkey, PlayerClass::Rabbit,
-            ];
-
-            let mut available: Array<AvailableClasses> = array![];
-
-            loop {
-                match classes.pop_front() {
-                    Option::Some(class) => {
-                        let initialItems = class.get_initial_items();
-                        let attackItem = initialItems.Attack.name();
-                        let defenseItem = initialItems.Defense.name();
-                        let transportItem = initialItems.Transport.name();
-                        let speedItem = initialItems.Speed.name();
-                        let attackTier = initialItems.Attack.initial_tier();
-                        let defenseTier = initialItems.Defense.initial_tier();
-                        let transportTier = initialItems.Transport.initial_tier();
-                        let speedTier = initialItems.Speed.initial_tier();
-
-                        let available_class = AvailableClasses {
-                            class,
-                            items: Items { attackItem, defenseItem, transportItem, speedItem, },
-                            initialTiers: InitialTiers {
-                                attackTier, defenseTier, transportTier, speedTier,
-                            },
-                        };
-
-                        available.append(available_class);
-                    },
-                    Option::None => { break; },
-                };
-            };
-
-            available.span()
         }
     }
 

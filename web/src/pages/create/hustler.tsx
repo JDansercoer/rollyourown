@@ -7,7 +7,7 @@ import { Hustler } from "@/components/hustler";
 import { Arrow } from "@/components/icons";
 import { PowerMeter } from "@/components/PowerMeter";
 import React, { useEffect, useState } from "react";
-import { GameMode, PlayerClass } from "@/dojo/types";
+import { GameMode, Hustler as HustlerType } from "@/dojo/types";
 import { useSystems } from "@/dojo/hooks/useSystems";
 import { useDojoContext } from "@/dojo/hooks/useDojoContext";
 import { validateAndParseAddress } from "starknet";
@@ -32,9 +32,9 @@ export default function HustlerPage() {
 
   useEffect(() => {
     const getStuff = async () => {
-      const classes = (await call(account!, "lobby", "get_available_classes", [])) as any[];
+      const hustlers = (await call(account!, "hustler", "get_available_hustlers", [])) as any[];
 
-      setAvailableHustlers(classes);
+      setAvailableHustlers(hustlers);
     };
 
     if (account) {
@@ -69,10 +69,10 @@ export default function HustlerPage() {
 
       const selectedHustler = availableHustlers[selectedHustlerIndex];
 
-      const selectedClass: string = selectedHustler.class.activeVariant();
+      const selectedHustlerName: string = selectedHustler.hustler.activeVariant();
 
       // @ts-ignore
-      const { gameId } = await createGame(gameMode, name, PlayerClass[selectedClass], avatarId, address);
+      const { gameId } = await createGame(gameMode, name, HustlerType[selectedHustlerName], avatarId, address);
 
       router.push(`/${gameId}/travel`);
     } catch (e) {
@@ -145,7 +145,7 @@ export default function HustlerPage() {
 
             const selectedHustler = availableHustlers[selectedHustlerIndex];
 
-            const selectedClass: string = selectedHustler.class.activeVariant();
+            const selectedHustlerName: string = selectedHustler.hustler.activeVariant();
 
             return (
               <HStack spacing={8}>
@@ -159,7 +159,7 @@ export default function HustlerPage() {
                   }}
                 ></Arrow>
                 <HStack spacing={12}>
-                  <Hustler hustler={selectedClass.toLowerCase() as Hustler} w={100} h={270} />
+                  <Hustler hustler={selectedHustlerName.toLowerCase() as Hustler} w={100} h={270} />
                   <Grid gridTemplateColumns="165px max-content" columnGap={8} rowGap={4} alignItems="center">
                     {stats.map((singleStat) => {
                       const { name, stat, slot } = singleStat;

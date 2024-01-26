@@ -149,14 +149,14 @@ export function defineContractComponents(world: World) {
           wanted: RecsType.Number,
           leaderboard_version: RecsType.Number,
           game_over: RecsType.Boolean,
-          class: RecsType.Number,
+          hustler: RecsType.Number,
           can_use_shop: RecsType.Boolean,
           shop_last_used: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            types: ["ContractAddress","felt252","u8","PlayerStatus","LocationEnum","LocationEnum","LocationEnum","usize","usize","u8","u128","u8","usize","usize","usize","usize","usize","u8","u32","bool","PlayerClass","bool","usize"],
+            types: ["ContractAddress","felt252","u8","PlayerStatus","LocationEnum","LocationEnum","LocationEnum","usize","usize","u8","u128","u8","usize","usize","usize","usize","usize","u8","u32","bool","Hustler","bool","usize"],
           },
         }
       );

@@ -949,7 +949,7 @@
     {
       "name": "decide",
       "address": "0x260e5299f82c57b6e88b41b83a0f09fc3b9b5fedf13f5f2859f6eee7150928e",
-      "class_hash": "0x1ed873aaeffbfa9d8832051780afc5bb18c56fae6d39a3f4a2288e8bde4c4a9",
+      "class_hash": "0x5f18732d291f36c58e29277e82630d533a5de5084b9d957a9f58f4a3758c03a",
       "abi": [
         {
           "type": "impl",
@@ -1285,9 +1285,263 @@
       "computed": []
     },
     {
+      "name": "hustler",
+      "address": "0x764256a9879700d71dc59a10120fd866b226cd3b15d8accd31170fbf0df5151",
+      "class_hash": "0x5d06a96dccf3e5c856e3d104e806a6cd35defd9705672fcea239fa4ccb4ca0f",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::world::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::world::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::IWorldDispatcher"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "HustlerImpl",
+          "interface_name": "rollyourown::systems::hustler::IHustler"
+        },
+        {
+          "type": "enum",
+          "name": "rollyourown::systems::hustler::Hustler",
+          "variants": [
+            {
+              "name": "Dragon",
+              "type": "()"
+            },
+            {
+              "name": "Monkey",
+              "type": "()"
+            },
+            {
+              "name": "Rabbit",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "rollyourown::systems::hustler::Items",
+          "members": [
+            {
+              "name": "attackItem",
+              "type": "core::felt252"
+            },
+            {
+              "name": "defenseItem",
+              "type": "core::felt252"
+            },
+            {
+              "name": "transportItem",
+              "type": "core::felt252"
+            },
+            {
+              "name": "speedItem",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "rollyourown::models::itemNew::ItemTier",
+          "variants": [
+            {
+              "name": "Tier1",
+              "type": "()"
+            },
+            {
+              "name": "Tier2",
+              "type": "()"
+            },
+            {
+              "name": "Tier3",
+              "type": "()"
+            },
+            {
+              "name": "Tier4",
+              "type": "()"
+            },
+            {
+              "name": "Tier5",
+              "type": "()"
+            },
+            {
+              "name": "Tier6",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "rollyourown::systems::hustler::InitialTiers",
+          "members": [
+            {
+              "name": "attackTier",
+              "type": "rollyourown::models::itemNew::ItemTier"
+            },
+            {
+              "name": "defenseTier",
+              "type": "rollyourown::models::itemNew::ItemTier"
+            },
+            {
+              "name": "transportTier",
+              "type": "rollyourown::models::itemNew::ItemTier"
+            },
+            {
+              "name": "speedTier",
+              "type": "rollyourown::models::itemNew::ItemTier"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "rollyourown::systems::hustler::AvailableHustlers",
+          "members": [
+            {
+              "name": "hustler",
+              "type": "rollyourown::systems::hustler::Hustler"
+            },
+            {
+              "name": "items",
+              "type": "rollyourown::systems::hustler::Items"
+            },
+            {
+              "name": "initialTiers",
+              "type": "rollyourown::systems::hustler::InitialTiers"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<rollyourown::systems::hustler::AvailableHustlers>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<rollyourown::systems::hustler::AvailableHustlers>"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "rollyourown::systems::hustler::IHustler",
+          "items": [
+            {
+              "type": "function",
+              "name": "get_available_hustlers",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::array::Span::<rollyourown::systems::hustler::AvailableHustlers>"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradableImpl",
+          "interface_name": "dojo::components::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::components::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "dojo_resource",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "dojo::components::upgradeable::upgradeable::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::components::upgradeable::upgradeable::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::components::upgradeable::upgradeable::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "rollyourown::systems::hustler::hustler::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::components::upgradeable::upgradeable::Event",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "reads": [],
+      "writes": [],
+      "computed": []
+    },
+    {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x6d8dc45d879e89f85fb4ada6c65c95061fca1a60bae6fcba441153a0096a4be",
+      "class_hash": "0x4e3e8967fe43ab46d90f4c16066f768b5528821d0c8e79d08eac1fcc666c7e4",
       "abi": [
         {
           "type": "impl",
@@ -1342,7 +1596,7 @@
         },
         {
           "type": "enum",
-          "name": "rollyourown::models::player::PlayerClass",
+          "name": "rollyourown::systems::hustler::Hustler",
           "variants": [
             {
               "name": "Dragon",
@@ -1355,108 +1609,6 @@
             {
               "name": "Rabbit",
               "type": "()"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "rollyourown::systems::lobby::Items",
-          "members": [
-            {
-              "name": "attackItem",
-              "type": "core::felt252"
-            },
-            {
-              "name": "defenseItem",
-              "type": "core::felt252"
-            },
-            {
-              "name": "transportItem",
-              "type": "core::felt252"
-            },
-            {
-              "name": "speedItem",
-              "type": "core::felt252"
-            }
-          ]
-        },
-        {
-          "type": "enum",
-          "name": "rollyourown::models::itemNew::ItemTier",
-          "variants": [
-            {
-              "name": "Tier1",
-              "type": "()"
-            },
-            {
-              "name": "Tier2",
-              "type": "()"
-            },
-            {
-              "name": "Tier3",
-              "type": "()"
-            },
-            {
-              "name": "Tier4",
-              "type": "()"
-            },
-            {
-              "name": "Tier5",
-              "type": "()"
-            },
-            {
-              "name": "Tier6",
-              "type": "()"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "rollyourown::systems::lobby::InitialTiers",
-          "members": [
-            {
-              "name": "attackTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
-            },
-            {
-              "name": "defenseTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
-            },
-            {
-              "name": "transportTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
-            },
-            {
-              "name": "speedTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "rollyourown::systems::lobby::AvailableClasses",
-          "members": [
-            {
-              "name": "class",
-              "type": "rollyourown::models::player::PlayerClass"
-            },
-            {
-              "name": "items",
-              "type": "rollyourown::systems::lobby::Items"
-            },
-            {
-              "name": "initialTiers",
-              "type": "rollyourown::systems::lobby::InitialTiers"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<rollyourown::systems::lobby::AvailableClasses>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<rollyourown::systems::lobby::AvailableClasses>"
             }
           ]
         },
@@ -1477,8 +1629,8 @@
                   "type": "core::felt252"
                 },
                 {
-                  "name": "class",
-                  "type": "rollyourown::models::player::PlayerClass"
+                  "name": "hustler",
+                  "type": "rollyourown::systems::hustler::Hustler"
                 },
                 {
                   "name": "avatar_id",
@@ -1514,17 +1666,6 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
-            },
-            {
-              "type": "function",
-              "name": "get_available_classes",
-              "inputs": [],
-              "outputs": [
-                {
-                  "type": "core::array::Span::<rollyourown::systems::lobby::AvailableClasses>"
-                }
-              ],
               "state_mutability": "view"
             }
           ]
@@ -1803,7 +1944,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x1e23e87d2456eccb1bd3d47bba6537873582bba13fa81f3558e81c2abff8606",
+      "class_hash": "0x4681d07d1f72b80ed63bbf1ee92b46297d6dc048f2be9395289a82a901efb6a",
       "abi": [
         {
           "type": "impl",
@@ -2140,7 +2281,7 @@
     {
       "name": "trade",
       "address": "0x33e7623715493a8b1bf3a0eb0938e28dcbca0ac1459594d6d662181ae5ed701",
-      "class_hash": "0x4a7d27402d7107c575e50e1669cec49cf1f1ad07ea78bfc43c67e61ae27d43b",
+      "class_hash": "0x70a0f913d348d384ceb6b3532e88db52b66cee8c00b12ac34abc9729417be0",
       "abi": [
         {
           "type": "impl",
@@ -2458,7 +2599,7 @@
     {
       "name": "travel",
       "address": "0x21f6ceaba4583a3ff5d3a21ed34c6b269282d59a79cedb782c9c1d72b5537dc",
-      "class_hash": "0x2f6b794ae11dba156eccbbf92cb74c007669502988cd4248c9e500a1b0e9a88",
+      "class_hash": "0x723d6f8574801e2c4f73df46ee171f1f3c8a1a1b3d81d96a245da207303b89",
       "abi": [
         {
           "type": "impl",
@@ -4323,8 +4464,8 @@
           "key": false
         },
         {
-          "name": "class",
-          "type": "PlayerClass",
+          "name": "hustler",
+          "type": "Hustler",
           "key": false
         },
         {
@@ -4338,7 +4479,7 @@
           "key": false
         }
       ],
-      "class_hash": "0x26ff3f94a4d3f0d48dcb871e1fafb2f98009804f9af66fb5bd2fc9ecd27b64a",
+      "class_hash": "0x58781fb912bd03248601133ee9a01e0311b497da266355dc7b957481152a4b7",
       "abi": [
         {
           "type": "function",

@@ -6,6 +6,7 @@ use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 
 use rollyourown::models::location::LocationEnum;
 use rollyourown::models::item::{Item, ItemEnum};
+use rollyourown::systems::hustler::Hustler;
 
 #[derive(Model, Copy, Drop, Serde)]
 struct Player {
@@ -33,7 +34,7 @@ struct Player {
     wanted: u8,
     leaderboard_version: u32,
     game_over: bool,
-    class: PlayerClass,
+    hustler: Hustler,
     can_use_shop: bool,
     shop_last_used: usize,
 }
@@ -112,13 +113,6 @@ enum PlayerStatus {
     BeingMugged: (),
     BeingArrested: (),
     AtPawnshop: (),
-}
-
-#[derive(Copy, Drop, Serde, Introspect, PartialEq)]
-enum PlayerClass {
-    Dragon: (),
-    Monkey: (),
-    Rabbit: (),
 }
 
 impl PlayerStatusIntrospectionImpl of Introspect<PlayerStatus> {

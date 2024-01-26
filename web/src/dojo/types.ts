@@ -61,7 +61,7 @@ export enum GameMode {
   Unlimited,
 }
 
-export enum PlayerClass {
+export enum Hustler {
   Dragon,
   Monkey,
   Rabbit,
