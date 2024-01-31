@@ -1,7 +1,10 @@
+use core::array::ArrayTrait;
 use starknet::ContractAddress;
 use dojo::database::introspect::{
     Enum, Member, Ty, Struct, Introspect, serialize_member, serialize_member_type
 };
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use rollyourown::models::player::Player;
 
 #[derive(Model, Copy, Drop, Serde)]
 struct ItemNew {
@@ -10,6 +13,7 @@ struct ItemNew {
     #[key]
     player_id: ContractAddress,
     #[key]
+    slot: ItemSlot,
     name: ItemName,
     tier: ItemTier,
     stat: ItemStat,
@@ -23,6 +27,23 @@ enum ItemTier {
     Tier4,
     Tier5,
     Tier6,
+}
+
+trait NextItemTierTrait {
+    fn nextTier(self: ItemTier) -> ItemTier;
+}
+
+impl NextItemTierImpl of NextItemTierTrait {
+    fn nextTier(self: ItemTier) -> ItemTier {
+        match self {
+            ItemTier::Tier1 => ItemTier::Tier2,
+            ItemTier::Tier2 => ItemTier::Tier3,
+            ItemTier::Tier3 => ItemTier::Tier4,
+            ItemTier::Tier4 => ItemTier::Tier5,
+            ItemTier::Tier5 => ItemTier::Tier6,
+            ItemTier::Tier6 => ItemTier::Tier6,
+        }
+    }
 }
 
 #[derive(Copy, Drop, Serde, Introspect)]
@@ -47,11 +68,20 @@ enum ItemName {
     PlasticBag,
 }
 
+#[derive(Copy, Drop, Serde, Introspect)]
+enum ItemSlot {
+    Weapon,
+    Shirt,
+    Shoe,
+    Bag
+}
+
 
 trait ItemMeta {
     fn initial_tier(self: ItemName) -> ItemTier;
     fn impacting_stat(self: ItemName) -> ItemStat;
     fn name(self: ItemName) -> felt252;
+    fn slot(self: ItemName) -> ItemSlot;
 }
 
 impl ItemMetaImpl of ItemMeta {
@@ -99,4 +129,39 @@ impl ItemMetaImpl of ItemMeta {
             ItemName::PlasticBag => 'Plastic Bag',
         }
     }
+
+    fn slot(self: ItemName) -> ItemSlot {
+        match self {
+            ItemName::Chain => ItemSlot::Weapon,
+            ItemName::BaseballBat => ItemSlot::Weapon,
+            ItemName::AK47 => ItemSlot::Weapon,
+            ItemName::BloodStainedShirt => ItemSlot::Shirt,
+            ItemName::TrenchCoat => ItemSlot::Shirt,
+            ItemName::BulletProofVest => ItemSlot::Shirt,
+            ItemName::AllBlackSneakers => ItemSlot::Shoe,
+            ItemName::AthleticTrainers => ItemSlot::Shoe,
+            ItemName::WorkBoots => ItemSlot::Shoe,
+            ItemName::PlasticBag => ItemSlot::Bag,
+        }
+    }
+}
+
+fn get_items_for_player(
+    world: IWorldDispatcher, game_id: u32, player_id: ContractAddress
+) -> Array<ItemNew> {
+    let mut items: Array<ItemNew> = array![];
+
+    let weapon = get!(world, (game_id, player_id, ItemSlot::Weapon), (ItemNew));
+    items.append(weapon);
+
+    let shirt = get!(world, (game_id, player_id, ItemSlot::Shirt), (ItemNew));
+    items.append(shirt);
+
+    let shoe = get!(world, (game_id, player_id, ItemSlot::Shoe), (ItemNew));
+    items.append(shoe);
+
+    let bag = get!(world, (game_id, player_id, ItemSlot::Bag), (ItemNew));
+    items.append(bag);
+
+    items
 }

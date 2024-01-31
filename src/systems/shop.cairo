@@ -1,15 +1,14 @@
 use starknet::ContractAddress;
 use rollyourown::models::player::{Player};
 use rollyourown::models::item::{ItemEnum};
+use rollyourown::models::itemNew::{ItemSlot, ItemStat};
 
 #[derive(Copy, Drop, Serde)]
 struct AvailableItem {
-    item_id: u32,
-    item_type: felt252,
+    slot: ItemSlot,
     name: felt252,
-    level: u8,
-    cost: u128,
-    value: usize
+    upgrade_cost: u128,
+    impacting_stat: ItemStat,
 }
 
 #[starknet::interface]
@@ -35,10 +34,11 @@ mod shop {
     use rollyourown::models::game::{Game, GameTrait};
     use rollyourown::models::item::{Item, ItemTrait, ItemEnum};
     use rollyourown::utils::settings::{
-        ItemSettings, ItemSettingsImpl, ShopSettings, ShopSettingsImpl
+        ItemSettings, ItemSettingsImpl, ShopSettings, ShopSettingsImpl, getStatValueAndCost
     };
     use rollyourown::utils::random::{RandomImpl};
     use rollyourown::systems::travel::on_turn_end;
+    use rollyourown::models::itemNew::{NextItemTierImpl, ItemMetaImpl, get_items_for_player};
 
     use super::{IShop, AvailableItem};
 
@@ -179,31 +179,24 @@ mod shop {
                 return available.span();
             };
 
-            let shop_settings = ShopSettingsImpl::get(game.game_mode);
-            let mut items = ItemTrait::all();
+            let mut player_items = get_items_for_player(world, game_id, player_id);
 
             loop {
-                match items.pop_front() {
-                    Option::Some(item_id) => {
-                        let player_item = get!(world, (game_id, player_id, *item_id), (Item));
-
-                        let item_settings = ItemSettingsImpl::get(
-                            game.game_mode, *item_id, player_item.level + 1
+                match player_items.pop_front() {
+                    Option::Some(item) => {
+                        let (_, upgrade_cost) = getStatValueAndCost(
+                            item.stat, item.tier.nextTier()
                         );
 
-                        if player_item.level < shop_settings.max_item_level {
-                            available
-                                .append(
-                                    AvailableItem {
-                                        item_id: (*item_id).into(),
-                                        item_type: (*item_id).into(),
-                                        level: player_item.level + 1,
-                                        name: item_settings.name,
-                                        cost: item_settings.cost / SCALING_FACTOR,
-                                        value: item_settings.value,
-                                    }
-                                );
-                        };
+                        available
+                            .append(
+                                AvailableItem {
+                                    slot: item.slot,
+                                    name: item.name.name(),
+                                    upgrade_cost: upgrade_cost / SCALING_FACTOR,
+                                    impacting_stat: item.stat,
+                                }
+                            );
                     },
                     Option::None => { break; },
                 };

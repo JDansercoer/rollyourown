@@ -104,6 +104,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
         name: initialItems.Attack,
         tier: initialItems.Attack.initial_tier(),
         stat: initialItems.Attack.impacting_stat(),
+        slot: initialItems.Attack.slot(),
     };
 
     set!(world, (attackItem));
@@ -114,6 +115,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
         name: initialItems.Defense,
         tier: initialItems.Defense.initial_tier(),
         stat: initialItems.Defense.impacting_stat(),
+        slot: initialItems.Defense.slot(),
     };
 
     set!(world, (defenseItem));
@@ -124,6 +126,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
         name: initialItems.Transport,
         tier: initialItems.Transport.initial_tier(),
         stat: initialItems.Transport.impacting_stat(),
+        slot: initialItems.Transport.slot(),
     };
 
     set!(world, (transportItem));
@@ -134,6 +137,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
         name: initialItems.Speed,
         tier: initialItems.Speed.initial_tier(),
         stat: initialItems.Speed.impacting_stat(),
+        slot: initialItems.Speed.slot(),
     };
 
     set!(world, (speedItem));

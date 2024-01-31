@@ -1541,7 +1541,7 @@
     {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x256fe3d8920d07563d576441a513ec5cb59d59bf3f61dec7f1a8fa41ee9775b",
+      "class_hash": "0x16759c26779f16730410c29a092496e43d2b4d4e02de21c689eaae49f0dc19d",
       "abi": [
         {
           "type": "impl",
@@ -1944,7 +1944,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x4681d07d1f72b80ed63bbf1ee92b46297d6dc048f2be9395289a82a901efb6a",
+      "class_hash": "0x3122340c790b9b4ea79d9a7965796e089d07a55c09cc2942eb3424033a3bd7a",
       "abi": [
         {
           "type": "impl",
@@ -2020,32 +2020,68 @@
           ]
         },
         {
+          "type": "enum",
+          "name": "rollyourown::models::itemNew::ItemSlot",
+          "variants": [
+            {
+              "name": "Weapon",
+              "type": "()"
+            },
+            {
+              "name": "Shirt",
+              "type": "()"
+            },
+            {
+              "name": "Shoe",
+              "type": "()"
+            },
+            {
+              "name": "Bag",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "rollyourown::models::itemNew::ItemStat",
+          "variants": [
+            {
+              "name": "DMG",
+              "type": "()"
+            },
+            {
+              "name": "DEF",
+              "type": "()"
+            },
+            {
+              "name": "SPD",
+              "type": "()"
+            },
+            {
+              "name": "INV",
+              "type": "()"
+            }
+          ]
+        },
+        {
           "type": "struct",
           "name": "rollyourown::systems::shop::AvailableItem",
           "members": [
             {
-              "name": "item_id",
-              "type": "core::integer::u32"
-            },
-            {
-              "name": "item_type",
-              "type": "core::felt252"
+              "name": "slot",
+              "type": "rollyourown::models::itemNew::ItemSlot"
             },
             {
               "name": "name",
               "type": "core::felt252"
             },
             {
-              "name": "level",
-              "type": "core::integer::u8"
-            },
-            {
-              "name": "cost",
+              "name": "upgrade_cost",
               "type": "core::integer::u128"
             },
             {
-              "name": "value",
-              "type": "core::integer::u32"
+              "name": "impacting_stat",
+              "type": "rollyourown::models::itemNew::ItemStat"
             }
           ]
         },
@@ -3793,9 +3829,14 @@
           "key": true
         },
         {
+          "name": "slot",
+          "type": "ItemSlot",
+          "key": true
+        },
+        {
           "name": "name",
           "type": "ItemName",
-          "key": true
+          "key": false
         },
         {
           "name": "tier",
@@ -3808,7 +3849,7 @@
           "key": false
         }
       ],
-      "class_hash": "0x532d64eac54414c371396dedd0da36014296f4da8742728b51c7e6e0b6e7594",
+      "class_hash": "0xb5b27200b9e030293e022497fb808824dc9993ebebe1bc3da01777f56338d",
       "abi": [
         {
           "type": "function",
