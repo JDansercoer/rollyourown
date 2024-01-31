@@ -4,12 +4,12 @@ import {
   InvokeTransactionReceiptResponse,
   SuccessfulTransactionReceiptResponse,
   num,
-  shortString
+  shortString,
 } from "starknet";
 
 import { WorldEvents } from "./generated/contractEvents";
 import { Siren, Truck } from "@/components/icons";
-import { getLocationByType, getDrugByType } from "./helpers"
+import { getLocationByType, getDrugByType } from "./helpers";
 import { ToastType } from "@/hooks/toast";
 
 export interface BaseEventData {
@@ -86,7 +86,7 @@ export interface TraveledEventData extends BaseEventData {
 
 export interface BoughtItemEventData extends BaseEventData {
   playerId: string;
-  itemId: string;
+  itemSlot: string;
   level: number;
   cost: number;
 }
@@ -98,7 +98,6 @@ export interface GameOverEventData extends BaseEventData {
   cash: number;
 }
 
-
 export const parseAllEvents = (receipt: GetTransactionReceiptResponse) => {
   if (receipt.status === "REJECTED") {
     throw new Error(`transaction REJECTED`);
@@ -107,25 +106,24 @@ export const parseAllEvents = (receipt: GetTransactionReceiptResponse) => {
     throw new Error(`transaction REVERTED`);
   }
 
-  const flatEvents = parseEvents(receipt as SuccessfulTransactionReceiptResponse)
-  return flatEvents
-}
+  const flatEvents = parseEvents(receipt as SuccessfulTransactionReceiptResponse);
+  return flatEvents;
+};
 
 export const parseEvents = (receipt: SuccessfulTransactionReceiptResponse) => {
-  const parsed = receipt.events.map(e => parseEvent(e))
-  return parsed
-}
+  const parsed = receipt.events.map((e) => parseEvent(e));
+  return parsed;
+};
 
 export const parseEventsByEventType = (receipt: SuccessfulTransactionReceiptResponse, eventType: WorldEvents) => {
-  const events = receipt.events.filter(e => e.keys[0] === eventType)
-  const parsed = events.map(e => parseEvent(e))
-  return parsed
-}
+  const events = receipt.events.filter((e) => e.keys[0] === eventType);
+  const parsed = events.map((e) => parseEvent(e));
+  return parsed;
+};
 
 export type ParseEventResult = ReturnType<typeof parseEvent>;
 
 export const parseEvent = (raw: any) => {
-
   switch (raw.keys[0]) {
     case WorldEvents.GameCreated:
       return {
@@ -236,7 +234,7 @@ export const parseEvent = (raw: any) => {
         eventName: "BoughtItem",
         gameId: num.toHexString(raw.keys[1]),
         playerId: num.toHexString(raw.keys[2]),
-        itemId: num.toHexString(raw.data[0]),
+        itemSlot: num.toHexString(raw.data[0]),
         level: Number(raw.data[1]),
         cost: Number(raw.data[2]),
       } as BoughtItemEventData;
@@ -253,7 +251,6 @@ export const parseEvent = (raw: any) => {
         cash: Number(raw.data[3]),
       } as GameOverEventData;
 
-
     default:
       // console.log(`event parse not implemented: ${raw.keys[0]}`)
       //throw new Error(`event parse not implemented: ${eventType}`);
@@ -261,22 +258,20 @@ export const parseEvent = (raw: any) => {
         gameId: undefined,
         eventType: raw.keys[0],
         eventName: raw.keys[0],
-      }
+      };
       break;
   }
-
-}
-
+};
 
 export function displayMarketEvents(events: MarketEventData[], toaster: ToastType) {
   // market events
   for (let event of events) {
     const e = event as MarketEventData;
     const msg = e.increase
-      ? `Pigs seized ${getDrugByType(Number(e.drugId))?.name} in ${getLocationByType(Number(e.locationId))?.name
-      }`
-      : `A shipment of ${getDrugByType(Number(e.drugId))?.name} has arrived to ${getLocationByType(Number(e.locationId))?.name
-      }`;
+      ? `Pigs seized ${getDrugByType(Number(e.drugId))?.name} in ${getLocationByType(Number(e.locationId))?.name}`
+      : `A shipment of ${getDrugByType(Number(e.drugId))?.name} has arrived to ${
+          getLocationByType(Number(e.locationId))?.name
+        }`;
     const icon = e.increase ? Siren : Truck;
     toaster.toast({
       message: msg,

@@ -66,7 +66,7 @@ export interface PlayerJoinedData {
 export interface BoughtItemData {
   game_id: RecsType.Number;
   player_id: RecsType.String;
-  item_id: RecsType.String;
+  item_slot: RecsType.String;
   level: RecsType.Number;
   cost: RecsType.Number;
 }

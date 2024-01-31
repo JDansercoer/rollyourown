@@ -89,6 +89,11 @@ export class PlayerEntity {
     this.turn = player.turn;
     this.drugCount = player.drug_count;
 
+    this.attack = player.attack;
+    this.defense = player.defense;
+    this.transport = player.transport;
+    this.speed = player.speed;
+
     this.hoodId = player.hood_id;
     this.locationId = player.location_id === "Home" ? undefined : player.location_id;
     this.status = player.status;

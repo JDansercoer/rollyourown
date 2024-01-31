@@ -6,6 +6,7 @@ use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 
 use rollyourown::models::location::LocationEnum;
 use rollyourown::models::item::{Item, ItemEnum};
+use rollyourown::models::itemNew::ItemStat;
 use rollyourown::systems::hustler::Hustler;
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -153,5 +154,14 @@ impl PlayerStatusIntoFelt252 of Into<PlayerStatus, felt252> {
             PlayerStatus::BeingArrested => 'BeingArrested',
             PlayerStatus::AtPawnshop => 'AtPawnshop',
         }
+    }
+}
+
+fn increase_player_stat(ref player: Player, stat: ItemStat, value: usize) {
+    match stat {
+        ItemStat::DMG => player.attack += value,
+        ItemStat::DEF => player.defense += value,
+        ItemStat::SPD => player.speed += value,
+        ItemStat::INV => player.transport += value,
     }
 }

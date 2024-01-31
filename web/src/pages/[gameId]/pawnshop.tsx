@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { VStack, HStack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { ShopItemInfo } from "@/dojo/types";
+import { ItemSlot, ShopItemInfo } from "@/dojo/types";
 import { useDojoContext } from "@/dojo/hooks/useDojoContext";
 import { useSystems } from "@/dojo/hooks/useSystems";
 import { playSound, Sounds } from "@/hooks/sound";
@@ -46,21 +46,20 @@ export default function PawnShop() {
     setIsBuying(true);
 
     try {
-      const icon = selectedShopItem.icon;
       playSound(Sounds.Trade);
-      const { hash, events } = await buyItem(gameId, selectedShopItem.type);
+      const itemSlotValue = ItemSlot[selectedShopItem.slot as keyof typeof ItemSlot];
+      const { hash, events } = await buyItem(gameId, itemSlotValue);
 
       toaster.toast({
         message: `${selectedShopItem.name} equiped!`,
         link: `http://amazing_explorer/${hash}`,
-        icon,
       });
 
       if (events) {
         displayMarketEvents(events as MarketEventData[], toaster);
       }
 
-      router.push(`/${gameId}/${getLocationById(playerEntity?.nextLocationId)?.slug}`);
+      router.push(`/${gameId}/travel`);
     } catch (e) {
       console.log(e);
     }

@@ -9,8 +9,6 @@ import {
   getLocationById,
   getOutcomeInfo,
   getOutcomeName,
-  getShopItem,
-  getShopItemByType,
 } from "@/dojo/helpers";
 import { useSystems } from "@/dojo/hooks/useSystems";
 
@@ -19,7 +17,7 @@ import { useRouter } from "next/router";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
 import { IsMobile, formatCash } from "@/utils/ui";
-import { Bag, DollarBag, Event } from "@/components/icons";
+import { Bag, DollarBag, Event, Home } from "@/components/icons";
 import { usePlayerLogs } from "@/dojo/queries/usePlayerLogs";
 import { GameCreatedData, PlayerJoinedData, WorldEvents } from "@/dojo/generated/contractEvents";
 import {
@@ -208,7 +206,7 @@ function renderDay(log: LogByDay) {
               break;
 
             case WorldEvents.GameOver:
-             // return renderGameOver(i as GameOverEventData, key);
+              // return renderGameOver(i as GameOverEventData, key);
               break;
 
             case WorldEvents.AtPawnshop:
@@ -259,12 +257,11 @@ function renderAtPawnshop(log: GameOverEventData, key: string) {
 }
 
 function renderBoughtItem(log: BoughtItemEventData, key: string) {
-  const item = getShopItemByType(Number(log.itemId), Number(log.level));
   return (
     <Line
       key={key}
-      icon={item.icon}
-      text={`Bought ${item.name}`}
+      icon={Home}
+      text={`Bought something`}
       total={`- ${formatCash(log.cost)}`}
       color="yellow.400"
       iconColor="yellow.400"

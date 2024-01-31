@@ -35,7 +35,7 @@ LOBBY_COMPONENTS=("Game" "Market" "Player" "Leaderboard" "RyoMeta", "ItemNew")
 TRAVEL_COMPONENTS=("Player" "Market" "Encounter" "Leaderboard" "RyoMeta")
 DECIDE_COMPONENTS=("Player" "Drug" "Market" "Encounter" "Leaderboard" "RyoMeta")
 TRADE_COMPONENTS=("Drug" "Market" "Player")
-SHOP_COMPONENTS=("Player" "Item" "Market")
+SHOP_COMPONENTS=("Player" "Item" "Market", "ItemNew")
 RYO_COMPONENTS=("RyoMeta" "Leaderboard")
 
 for component in ${LOBBY_COMPONENTS[@]}; do

@@ -5,6 +5,7 @@ use dojo::database::introspect::{
 };
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use rollyourown::models::player::Player;
+use rollyourown::utils::settings::getStatValueAndCost;
 
 #[derive(Model, Copy, Drop, Serde)]
 struct ItemNew {
@@ -17,6 +18,7 @@ struct ItemNew {
     name: ItemName,
     tier: ItemTier,
     stat: ItemStat,
+    times_upgraded: u8,
 }
 
 #[derive(Copy, Drop, Serde, Introspect)]
@@ -164,4 +166,11 @@ fn get_items_for_player(
     items.append(bag);
 
     items
+}
+
+fn get_stat_increase(item: ItemNew) -> usize {
+    let (currentStat, _) = getStatValueAndCost(item.stat, item.tier);
+    let (nextStat, _) = getStatValueAndCost(item.stat, item.tier.nextTier());
+
+    nextStat - currentStat
 }

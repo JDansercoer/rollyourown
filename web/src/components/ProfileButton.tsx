@@ -5,42 +5,27 @@ import {
   Divider,
   Card,
   Heading,
-  Image,
   Box,
-  Link as ChakraLink,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   MenuItem,
 } from "@chakra-ui/react";
-import Layout from "@/components/Layout";
 import Button from "@/components/Button";
 import { useState, useEffect } from "react";
-import { playSound, Sounds } from "@/hooks/sound";
-import Dot from "./Dot";
 import { useDojoContext } from "@/dojo/hooks/useDojoContext";
 import { Avatar } from "./avatar/Avatar";
-import { genAvatarFromAddress, genAvatarFromId } from "./avatar/avatars";
-import { headerStyles, headerButtonStyles } from "@/theme/styles";
-import { Calendar, Cigarette } from "./icons/archive";
+import { genAvatarFromId } from "./avatar/avatars";
+import { headerButtonStyles } from "@/theme/styles";
+import { Cigarette } from "./icons/archive";
 import { ItemTextEnum } from "@/dojo/types";
 import { PlayerEntity, ShopItem } from "@/dojo/queries/usePlayerEntity";
-import { getLocationById, getShopItem, getShopItemStatname } from "@/dojo/helpers";
-import { Dots, Gem, Twitter, User } from "./icons";
+import { getLocationById, getShopItemStatname } from "@/dojo/helpers";
+import { User } from "./icons";
 import { IsMobile, formatCash } from "@/utils/ui";
-import Link from "next/link";
-import { SCALING_FACTOR } from "@/dojo/constants";
-import HealthIndicator from "./player/HealthIndicator";
-import WantedIndicator from "./player/WantedIndicator";
-import CashIndicator from "./player/CashIndicator";
 import ShareButton from "./ShareButton";
 import { useRouter } from "next/router";
-import { Glock } from "./icons/items";
 import { useToast } from "@/hooks/toast";
-import { usePlayerEntityStore } from "@/hooks/player";
 
 const ProfileModal = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
   return (
@@ -166,49 +151,6 @@ export const Profile = ({ close, ...props }: { close?: () => void }) => {
                 </HStack>
               </HStack>
             </Card>
-
-            <HStack w="full">
-              <Card flex="1" h="40px" alignItems="center" justify="center">
-                {attackItem ? (
-                  getShopItem(attackItem.id, attackItem.level).icon({
-                    boxSize: "26",
-                    color: "yellow.400",
-                  })
-                ) : (
-                  <Dots color="neon.600" />
-                )}
-              </Card>
-              <Card flex="1" h="40px" alignItems="center" justify="center">
-                {defenseItem ? (
-                  getShopItem(defenseItem.id, defenseItem.level).icon({
-                    boxSize: "26",
-                    color: "yellow.400",
-                  })
-                ) : (
-                  <Dots color="neon.600" />
-                )}
-              </Card>
-              <Card flex="1" h="40px" alignItems="center" justify="center">
-                {speedItem ? (
-                  getShopItem(speedItem.id, speedItem.level).icon({
-                    boxSize: "26",
-                    color: "yellow.400",
-                  })
-                ) : (
-                  <Dots color="neon.600" />
-                )}
-              </Card>
-              <Card flex="1" h="40px" alignItems="center" justify="center">
-                {transportItem ? (
-                  getShopItem(transportItem.id, transportItem.level).icon({
-                    boxSize: "26",
-                    color: "yellow.400",
-                  })
-                ) : (
-                  <Dots color="neon.600" />
-                )}
-              </Card>
-            </HStack>
           </VStack>
         </Box>
         <Box w="full" justifyContent="center" py={["10px", "30px"]}>

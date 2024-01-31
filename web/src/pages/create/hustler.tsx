@@ -71,8 +71,13 @@ export default function HustlerPage() {
 
       const selectedHustlerName: string = selectedHustler.hustler.activeVariant();
 
-      // @ts-ignore
-      const { gameId } = await createGame(gameMode, name, HustlerType[selectedHustlerName], avatarId, address);
+      const { gameId } = await createGame(
+        gameMode,
+        name,
+        HustlerType[selectedHustlerName as keyof typeof HustlerType],
+        avatarId,
+        address,
+      );
 
       router.push(`/${gameId}/travel`);
     } catch (e) {

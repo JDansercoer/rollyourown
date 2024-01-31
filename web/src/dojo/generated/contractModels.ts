@@ -83,11 +83,12 @@ export function defineContractComponents(world: World) {
           name: RecsType.Number,
           tier: RecsType.Number,
           stat: RecsType.Number,
+          times_upgraded: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            types: ["ItemName", "ItemTier", "ItemStat"],
+            types: ["ItemName", "ItemTier", "ItemStat", "u8"],
           },
         },
       );

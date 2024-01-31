@@ -67,6 +67,13 @@ export enum Hustler {
   Rabbit,
 }
 
+export enum ItemSlot {
+  Weapon,
+  Shirt,
+  Shoe,
+  Bag,
+}
+
 export interface LocationInfo {
   type: Location;
   name: string;

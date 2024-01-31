@@ -1541,7 +1541,7 @@
     {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x16759c26779f16730410c29a092496e43d2b4d4e02de21c689eaae49f0dc19d",
+      "class_hash": "0x1b96ebc0f21673e9c63bd01247870377d3be238a471bce86d2009c597e376b7",
       "abi": [
         {
           "type": "impl",
@@ -1944,7 +1944,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x3122340c790b9b4ea79d9a7965796e089d07a55c09cc2942eb3424033a3bd7a",
+      "class_hash": "0x5a9fe83e51b08217fc127c6e095b1822a27eab85bd2c7735e40445b8a1bbea4",
       "abi": [
         {
           "type": "impl",
@@ -1993,28 +1993,6 @@
             },
             {
               "name": "True",
-              "type": "()"
-            }
-          ]
-        },
-        {
-          "type": "enum",
-          "name": "rollyourown::models::item::ItemEnum",
-          "variants": [
-            {
-              "name": "Attack",
-              "type": "()"
-            },
-            {
-              "name": "Defense",
-              "type": "()"
-            },
-            {
-              "name": "Transport",
-              "type": "()"
-            },
-            {
-              "name": "Speed",
               "type": "()"
             }
           ]
@@ -2140,8 +2118,8 @@
                   "type": "core::integer::u32"
                 },
                 {
-                  "name": "item_id",
-                  "type": "rollyourown::models::item::ItemEnum"
+                  "name": "item_slot",
+                  "type": "rollyourown::models::itemNew::ItemSlot"
                 }
               ],
               "outputs": [],
@@ -2243,8 +2221,8 @@
               "kind": "key"
             },
             {
-              "name": "item_id",
-              "type": "rollyourown::models::item::ItemEnum",
+              "name": "item_slot",
+              "type": "rollyourown::models::itemNew::ItemSlot",
               "kind": "data"
             },
             {
@@ -2256,6 +2234,28 @@
               "name": "cost",
               "type": "core::integer::u32",
               "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "rollyourown::models::item::ItemEnum",
+          "variants": [
+            {
+              "name": "Attack",
+              "type": "()"
+            },
+            {
+              "name": "Defense",
+              "type": "()"
+            },
+            {
+              "name": "Transport",
+              "type": "()"
+            },
+            {
+              "name": "Speed",
+              "type": "()"
             }
           ]
         },
@@ -2306,11 +2306,12 @@
       ],
       "reads": [
         "Game",
-        "Item",
+        "ItemNew",
         "Player"
       ],
       "writes": [
-        "Item"
+        "ItemNew",
+        "Player"
       ],
       "computed": []
     },
@@ -3847,9 +3848,14 @@
           "name": "stat",
           "type": "ItemStat",
           "key": false
+        },
+        {
+          "name": "times_upgraded",
+          "type": "u8",
+          "key": false
         }
       ],
-      "class_hash": "0xb5b27200b9e030293e022497fb808824dc9993ebebe1bc3da01777f56338d",
+      "class_hash": "0x55689977c08e11e77b1cd9befd713a6a9661a9735c9763031e64d68402177d3",
       "abi": [
         {
           "type": "function",
