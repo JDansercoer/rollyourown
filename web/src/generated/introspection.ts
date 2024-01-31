@@ -11,6 +11,7 @@
       "Encounter",
       "Game",
       "Item",
+      "ItemNew",
       "Leaderboard",
       "Market",
       "Player",

@@ -8,7 +8,7 @@ import {
 } from "@/generated/graphql";
 import { useEffect, useMemo, useState } from "react";
 import { REFETCH_INTERVAL, SCALING_FACTOR } from "../constants";
-import { PlayerStatus, ItemEnum, ItemTextEnum } from "../types";
+import { PlayerStatus, ItemEnum, ItemTextEnum, Hustler } from "../types";
 import { shortString } from "starknet";
 import { profanity } from "@2toad/profanity";
 
@@ -37,6 +37,7 @@ export class PlayerEntity {
   locationId: string;
   nextLocationId?: string;
   status: PlayerStatus;
+  hustler: Hustler;
 
   drugs: Drug[];
   items: ShopItem[];
@@ -60,6 +61,7 @@ export class PlayerEntity {
     this.turn = player.turn;
     this.maxTurns = player.max_turns;
     this.maxItems = player.max_items;
+    this.hustler = Hustler[player.hustler as keyof typeof Hustler];
 
     this.drugCount = player.drug_count;
 

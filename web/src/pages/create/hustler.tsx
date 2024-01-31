@@ -164,7 +164,7 @@ export default function HustlerPage() {
                   }}
                 ></Arrow>
                 <HStack spacing={12}>
-                  <Hustler hustler={selectedHustlerName.toLowerCase() as Hustler} w={100} h={270} />
+                  <Hustler hustler={HustlerType[selectedHustlerName as keyof typeof HustlerType]} w={100} h={270} />
                   <Grid gridTemplateColumns="165px max-content" columnGap={8} rowGap={4} alignItems="center">
                     {stats.map((singleStat) => {
                       const { name, stat, slot } = singleStat;

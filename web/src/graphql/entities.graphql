@@ -18,6 +18,7 @@ fragment PlayerProps on Player {
   wanted
   game_over
   can_use_shop
+  hustler
 }
 
 query PlayerEntity($gameId: String!, $playerId: String!) {

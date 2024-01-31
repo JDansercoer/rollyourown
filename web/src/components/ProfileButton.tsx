@@ -26,6 +26,7 @@ import { IsMobile, formatCash } from "@/utils/ui";
 import ShareButton from "./ShareButton";
 import { useRouter } from "next/router";
 import { useToast } from "@/hooks/toast";
+import { HustlerThumbnail } from "./hustler";
 
 const ProfileModal = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
   return (
@@ -243,7 +244,6 @@ export const ProfileLink = () => {
 
   const { account, playerEntityStore } = useDojoContext();
   const { playerEntity } = playerEntityStore;
-  const [isOpen, setIsOpen] = useState(false);
 
   const onClick = () => {
     if (router.pathname === "/[gameId]/logs") {
@@ -258,7 +258,7 @@ export const ProfileLink = () => {
   return (
     <>
       <Button as={Box} cursor="pointer" h={["40px", "48px"]} {...headerButtonStyles} onClick={onClick}>
-        <Avatar name={genAvatarFromId(playerEntity.avatarId)} />
+        <HustlerThumbnail hustler={playerEntity.hustler} />
       </Button>
     </>
   );
