@@ -1,48 +1,31 @@
 import { Footer } from "@/components/Footer";
-import Header from "@/components/Header";
-import Input from "@/components/Input";
 import Layout from "@/components/Layout";
 import Button from "@/components/Button";
-import { Alert } from "@/components/icons";
-import { InputNumber } from "@/components/InputNumber";
-import {
-  VStack,
-  HStack,
-  Text,
-  Card,
-  CardFooter,
-  CardBody,
-  CardHeader,
-  SimpleGrid,
-  Box,
-  Heading,
-} from "@chakra-ui/react";
+import { VStack, HStack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { ReactNode, useState, useEffect } from "react";
-import { GameMode, ShopItemInfo, ItemEnum, ItemTextEnum } from "@/dojo/types";
+import { useState } from "react";
+import { ShopItemInfo } from "@/dojo/types";
 import { useDojoContext } from "@/dojo/hooks/useDojoContext";
 import { useSystems } from "@/dojo/hooks/useSystems";
 import { playSound, Sounds } from "@/hooks/sound";
 import { useToast } from "@/hooks/toast";
 
-import { Truck } from "@/components/icons/Truck";
-import { getLocationById, getLocationByType, getShopItem, getShopItemStatname } from "@/dojo/helpers";
+import { getLocationById } from "@/dojo/helpers";
 import { useAvailableShopItems } from "@/dojo/hooks/useAvailableShopItems";
-import { Inventory } from "@/components/Inventory";
 import { MarketEventData, displayMarketEvents } from "@/dojo/events";
+import { getIconForItem } from "@/utils/items";
 
 export default function PawnShop() {
   const router = useRouter();
   const gameId = router.query.gameId as string;
 
-  const { account, playerEntityStore } = useDojoContext();
-  const { buyItem, dropItem, skipShop, isPending } = useSystems();
+  const { playerEntityStore } = useDojoContext();
+  const { buyItem, isPending } = useSystems();
   const { availableShopItems } = useAvailableShopItems(gameId);
 
   const { playerEntity } = playerEntityStore;
 
   const [isBuying, setIsBuying] = useState(false);
-  const [isSkipping, setIsSkipping] = useState(false);
 
   const toaster = useToast();
 
@@ -55,22 +38,6 @@ export default function PawnShop() {
     } else {
       setSelectedShopItem(shopItem);
     }
-  };
-
-  const onSkip = async () => {
-    setIsSkipping(true);
-    try {
-      const { hash, events } = await skipShop(gameId);
-
-      if (events) {
-        displayMarketEvents(events as MarketEventData[], toaster);
-      }
-
-      router.push(`/${gameId}/${getLocationById(playerEntity?.nextLocationId)?.slug}`);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsSkipping(false);
   };
 
   const buy = async () => {
@@ -114,20 +81,14 @@ export default function PawnShop() {
       }}
       footer={
         <Footer>
-          <Button w="full" px={["auto", "20px"]} isLoading={isSkipping} isDisabled={isPending} onClick={onSkip}>
-            Skip
+          <Button w="full" px={["auto", "20px"]} onClick={() => router.back()}>
+            Back
           </Button>
           <Button
             w="full"
             px={["auto", "20px"]}
             isLoading={isBuying}
-            isDisabled={
-              isPending ||
-              !selectedShopItem ||
-              selectedShopItem.cost > playerEntity.cash ||
-              (playerEntity?.items.length === playerEntity?.maxItems &&
-                playerEntity?.items.find((i) => i.id === selectedShopItem?.typeText) === undefined)
-            }
+            isDisabled={isPending || !selectedShopItem || selectedShopItem.upgrade_cost > playerEntity.cash}
             onClick={buy}
           >
             Buy
@@ -136,52 +97,52 @@ export default function PawnShop() {
       }
     >
       <VStack w="full" pt={["0px", "20px"]} gap="20px" margin="auto">
-        <Inventory />
-
         <VStack w="full" alignItems="flex-start" mt="10px">
           <Text textStyle="subheading" fontSize="10px" color="neon.500">
             For sale - choose one
           </Text>
         </VStack>
 
-        <SimpleGrid columns={[1, 2]} w="full" margin="auto" gap={["10px", "16px"]} fontSize={["16px", "20px"]} pr="8px">
+        <VStack w="full" margin="auto" gap={["10px", "16px"]} fontSize={["16px", "20px"]} pr="8px">
           {availableShopItems &&
             availableShopItems.map((shopItem, index) => {
+              const Icon = getIconForItem(shopItem.name);
+
               return (
                 <Button
                   w="full"
-                  h={["auto", "100px"]}
+                  h="auto"
                   key={index}
                   position="relative"
                   padding="16px"
                   onClick={() => selectItem(shopItem)}
                   variant="selectable"
                   isActive={shopItem === selectedShopItem}
+                  isDisabled={isPending || shopItem.upgrade_cost > playerEntity.cash}
                   justifyContent="stretch"
-                  isDisabled={
-                    shopItem.cost > playerEntity.cash ||
-                    (playerEntity?.items.length === playerEntity?.maxItems &&
-                      playerEntity?.items.find((i) => i.id === shopItem?.typeText) === undefined)
-                  }
+                  p={3}
                 >
-                  <VStack w="full" gap="10px">
-                    <HStack w="full" justify="space-between">
-                      <Text textStyle="heading" textTransform="uppercase" fontSize={["18px", "20px"]}>
+                  <HStack w="full" gap={4}>
+                    <Icon boxSize={10} />
+                    <VStack flexGrow={1} alignItems="flex-start" spacing={0}>
+                      <Text fontSize="10px" opacity={0.5} fontFamily="broken-console">
+                        {shopItem.slot} upgrade
+                      </Text>
+                      <Text textStyle="heading" fontSize="16px" textTransform="capitalize">
                         {shopItem.name}
                       </Text>
-                      {shopItem.icon({ width: "40px", height: "40px" })}
-                    </HStack>
-                    <HStack w="full" justifyContent="space-between">
-                      <Text fontSize={["18px", "20px"]}>${shopItem.cost}</Text>
-                      <Text fontSize={["14px", "16px"]} opacity="0.5">
-                        {getShopItemStatname(shopItem.typeText)} +{shopItem.value}
+                    </VStack>
+                    <VStack alignItems="flex-end" spacing={0}>
+                      <Text fontSize="10px" opacity={0.5} fontFamily="broken-console">
+                        + {shopItem.impacting_stat}
                       </Text>
-                    </HStack>
-                  </VStack>
+                      <Text fontSize="16px">${shopItem.upgrade_cost.toLocaleString()}</Text>
+                    </VStack>
+                  </HStack>
                 </Button>
               );
             })}
-        </SimpleGrid>
+        </VStack>
       </VStack>
     </Layout>
   );
