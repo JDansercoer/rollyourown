@@ -125,7 +125,7 @@ mod lobby {
                 leaderboard_version,
                 game_over: false,
                 hustler,
-                can_use_shop: false,
+                can_use_shop: true,
                 shop_last_used: 0,
             };
 

@@ -183,7 +183,6 @@ use rollyourown::models::game::{Game};
 use rollyourown::models::player::{Player, PlayerTrait, PlayerStatus};
 use rollyourown::utils::settings::{RiskSettings, RiskSettingsImpl};
 use rollyourown::utils::settings::{ShopSettings, ShopSettingsImpl};
-use rollyourown::utils::shop::ShopImpl;
 use rollyourown::utils::risk::{RiskTrait, RiskImpl};
 use rollyourown::utils::market;
 use rollyourown::utils::math::{MathTrait, MathImpl, MathImplU8};

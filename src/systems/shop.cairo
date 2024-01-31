@@ -37,7 +37,6 @@ mod shop {
     use rollyourown::utils::settings::{
         ItemSettings, ItemSettingsImpl, ShopSettings, ShopSettingsImpl
     };
-    use rollyourown::utils::shop::{ShopImpl, ShopTrait};
     use rollyourown::utils::random::{RandomImpl};
     use rollyourown::systems::travel::on_turn_end;
 
@@ -70,16 +69,6 @@ mod shop {
         item_id: ItemEnum,
     }
 
-
-    #[generate_trait]
-    impl InternalImpl of InternalTrait {
-        fn assert_can_access_shop(self: @ContractState, game: @Game, player: @Player) {
-            assert(self.is_open((*game).game_id, (*player).player_id), 'shop is closed!');
-            assert((*player).status == PlayerStatus::AtPawnshop, 'not at shop!');
-            assert((*game).tick(), 'cannot progress');
-        }
-    }
-
     #[external(v0)]
     impl ShopExternalImpl of IShop<ContractState> {
         fn skip(self: @ContractState, game_id: u32) {
@@ -100,9 +89,8 @@ mod shop {
             let world = self.world();
             let game = get!(world, game_id, (Game));
             let player = get!(world, (game_id, player_id), Player);
-            let shop_settings = ShopSettingsImpl::get(game.game_mode);
 
-            shop_settings.is_open(@player)
+            player.can_use_shop
         }
 
         fn buy_item(self: @ContractState, game_id: u32, item_id: ItemEnum,) {
@@ -111,8 +99,6 @@ mod shop {
             let player_id = get_caller_address();
             let mut player = get!(world, (game_id, player_id), Player);
             let mut randomizer = RandomImpl::new(world);
-
-            self.assert_can_access_shop(@game, @player);
 
             let mut item = get!(world, (game_id, player_id, item_id), Item);
             let shop_settings = ShopSettingsImpl::get(game.game_mode);
