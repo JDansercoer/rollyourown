@@ -12,7 +12,22 @@ import {
 } from "@/dojo/helpers";
 import { useSystems } from "@/dojo/hooks/useSystems";
 
-import { HStack, Heading, ListItem, Text, UnorderedList, VStack, Box, Tooltip, Image } from "@chakra-ui/react";
+import {
+  HStack,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+  VStack,
+  Box,
+  Tooltip,
+  Image,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
@@ -36,7 +51,8 @@ import {
 } from "@/dojo/events";
 import { Action, Outcome, PlayerStatus } from "@/dojo/types";
 import { SCALING_FACTOR } from "@/dojo/constants";
-import { Profile } from "@/components/ProfileButton";
+import Profile from "@/components/profile/Stats";
+import Loadout from "@/components/profile/Loadout";
 
 type LogByDay = {
   day: number;
@@ -130,7 +146,7 @@ export default function Logs() {
       //   imageSrc: "/images/will-smith-with-attitude.png",
       // }}
       // CustomLeftPanel={!playerId ? CustomLeftPanel : undefined}
-      CustomLeftPanel={CustomLeftPanel}
+      CustomLeftPanel={Profile}
       footer={
         <Footer>
           <Button
@@ -150,23 +166,28 @@ export default function Logs() {
       }
       rigthPanelMaxH={rigthPanelMaxH}
     >
-      <VStack w="full" ref={listRef}>
-        {logs && logs.map((log) => /*log.logs.length > 0 &&*/ renderDay(log))}
-      </VStack>
+      <Tabs variant="unstyled" w="full">
+        <TabList>
+          <Tab>Loadout</Tab>
+          <Tab>Activity</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            <Box pt="30px">
+              <Loadout />
+            </Box>
+          </TabPanel>
+          <TabPanel>
+            <VStack w="full" ref={listRef}>
+              {logs && logs.map((log) => /*log.logs.length > 0 &&*/ renderDay(log))}
+            </VStack>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Layout>
   );
 }
-
-const CustomLeftPanel = () => {
-  return (
-    <VStack w="full" h="full" justifyContent="center" alignItems="center" flex="1">
-      <Heading fontSize={["36px", "48px"]} fontWeight="400" mb={["0px", "20px"]}>
-        Hustler Log
-      </Heading>
-      <Profile />
-    </VStack>
-  );
-};
 
 function renderDay(log: LogByDay) {
   return (
