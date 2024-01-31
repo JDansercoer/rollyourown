@@ -11,7 +11,6 @@ struct ItemNew {
     player_id: ContractAddress,
     #[key]
     name: ItemName,
-    level: u8,
     tier: ItemTier,
     stat: ItemStat,
 }

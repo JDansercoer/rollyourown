@@ -31,7 +31,7 @@ echo ryo : $RYO_ADDRESS
 echo "---------------------------------------------------------------------------"
 
 # enable system -> component authorizations
-LOBBY_COMPONENTS=("Game" "Market" "Player" "Leaderboard" "RyoMeta")
+LOBBY_COMPONENTS=("Game" "Market" "Player" "Leaderboard" "RyoMeta", "ItemNew")
 TRAVEL_COMPONENTS=("Player" "Market" "Encounter" "Leaderboard" "RyoMeta")
 DECIDE_COMPONENTS=("Player" "Drug" "Market" "Encounter" "Leaderboard" "RyoMeta")
 TRADE_COMPONENTS=("Drug" "Market" "Player")

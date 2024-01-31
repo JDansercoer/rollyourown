@@ -1541,7 +1541,7 @@
     {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x45ae3ad0b6acc94513aebe4ef0d52a8b4bc3b73dc092e6784d83f169786a493",
+      "class_hash": "0x256fe3d8920d07563d576441a513ec5cb59d59bf3f61dec7f1a8fa41ee9775b",
       "abi": [
         {
           "type": "impl",
@@ -3798,11 +3798,6 @@
           "key": true
         },
         {
-          "name": "level",
-          "type": "u8",
-          "key": false
-        },
-        {
           "name": "tier",
           "type": "ItemTier",
           "key": false
@@ -3813,7 +3808,7 @@
           "key": false
         }
       ],
-      "class_hash": "0x309574b90d770ac9390a0e09fd9f6a5def3f0b8684ec583137b140ce6298a06",
+      "class_hash": "0x532d64eac54414c371396dedd0da36014296f4da8742728b51c7e6e0b6e7594",
       "abi": [
         {
           "type": "function",

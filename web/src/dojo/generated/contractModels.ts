@@ -80,14 +80,13 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          level: RecsType.Number,
           tier: RecsType.Number,
           stat: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            types: ["u8", "ItemTier", "ItemStat"],
+            types: ["ItemTier", "ItemStat"],
           },
         },
       );

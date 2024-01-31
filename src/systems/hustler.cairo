@@ -1,4 +1,4 @@
-use rollyourown::models::itemNew::ItemTier;
+use rollyourown::models::itemNew::{ItemTier, ItemNew, ItemMetaImpl};
 
 #[derive(Copy, Drop, Serde, Introspect, PartialEq)]
 enum Hustler {
@@ -95,4 +95,46 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
     player.speed = initialStats.Speed;
 
     set!(world, (player));
+
+    let initialItems = hustler.get_initial_items();
+
+    let attackItem = ItemNew {
+        game_id: player.game_id,
+        player_id: player.player_id,
+        name: initialItems.Attack,
+        tier: initialItems.Attack.initial_tier(),
+        stat: initialItems.Attack.impacting_stat(),
+    };
+
+    set!(world, (attackItem));
+
+    let defenseItem = ItemNew {
+        game_id: player.game_id,
+        player_id: player.player_id,
+        name: initialItems.Defense,
+        tier: initialItems.Defense.initial_tier(),
+        stat: initialItems.Defense.impacting_stat(),
+    };
+
+    set!(world, (defenseItem));
+
+    let transportItem = ItemNew {
+        game_id: player.game_id,
+        player_id: player.player_id,
+        name: initialItems.Transport,
+        tier: initialItems.Transport.initial_tier(),
+        stat: initialItems.Transport.impacting_stat(),
+    };
+
+    set!(world, (transportItem));
+
+    let speedItem = ItemNew {
+        game_id: player.game_id,
+        player_id: player.player_id,
+        name: initialItems.Speed,
+        tier: initialItems.Speed.initial_tier(),
+        stat: initialItems.Speed.impacting_stat(),
+    };
+
+    set!(world, (speedItem));
 }
