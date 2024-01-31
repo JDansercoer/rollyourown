@@ -182,6 +182,10 @@ mod shop {
             loop {
                 match player_items.pop_front() {
                     Option::Some(item) => {
+                        if (item.times_upgraded >= MAX_UPGRADE_COUNT) {
+                            continue;
+                        };
+
                         let (_, upgrade_cost) = getStatValueAndCost(
                             item.stat, item.tier.nextTier()
                         );
