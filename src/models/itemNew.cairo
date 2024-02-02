@@ -31,6 +31,19 @@ enum ItemTier {
     Tier6,
 }
 
+impl ItemTierIntoU8 of Into<ItemTier, u8> {
+    fn into(self: ItemTier) -> u8 {
+        match self {
+            ItemTier::Tier1 => 1,
+            ItemTier::Tier2 => 2,
+            ItemTier::Tier3 => 3,
+            ItemTier::Tier4 => 4,
+            ItemTier::Tier5 => 5,
+            ItemTier::Tier6 => 6,
+        }
+    }
+}
+
 trait NextItemTierTrait {
     fn nextTier(self: ItemTier) -> ItemTier;
 }

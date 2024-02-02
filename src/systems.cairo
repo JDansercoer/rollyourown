@@ -5,6 +5,7 @@ mod decide;
 mod shop;
 mod ryo;
 mod hustler;
+mod profile;
 // mod devtools;
 
 
