@@ -128,7 +128,7 @@ export default function PawnShop() {
                         {shopItem.slot} upgrade
                       </Text>
                       <Text textStyle="heading" fontSize="16px" textTransform="capitalize">
-                        {shopItem.name}
+                        {shopItem.upgrade_name}
                       </Text>
                     </VStack>
                     <VStack alignItems="flex-end" spacing={0}>

@@ -1944,7 +1944,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x5a9fe83e51b08217fc127c6e095b1822a27eab85bd2c7735e40445b8a1bbea4",
+      "class_hash": "0x7c7114612c0b4f571473f397e5203d0bf80be27cc96d0eac220e9d8a8749d7d",
       "abi": [
         {
           "type": "impl",
@@ -2051,6 +2051,10 @@
             },
             {
               "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "upgrade_name",
               "type": "core::felt252"
             },
             {

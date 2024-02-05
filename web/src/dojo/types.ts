@@ -95,6 +95,7 @@ export interface ShopItemInfo {
   name: string;
   slot: string;
   upgrade_cost: number;
+  upgrade_name: string;
 }
 
 export interface OutcomeInfo {

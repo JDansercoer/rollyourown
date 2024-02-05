@@ -25,6 +25,7 @@ export const useAvailableShopItems = (gameId: string) => {
             name: shortString.decodeShortString(i.name),
             upgrade_cost: Number(i.upgrade_cost),
             slot: i.slot.activeVariant(),
+            upgrade_name: shortString.decodeShortString(i.upgrade_name),
           } as ShopItemInfo;
         });
 
