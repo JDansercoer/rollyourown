@@ -97,6 +97,7 @@ trait ItemMeta {
     fn impacting_stat(self: ItemName) -> ItemStat;
     fn name(self: ItemName) -> felt252;
     fn slot(self: ItemName) -> ItemSlot;
+    fn nextUpgradeName(self: ItemName, timesUpgraded: u8) -> felt252;
 }
 
 impl ItemMetaImpl of ItemMeta {
@@ -157,6 +158,101 @@ impl ItemMetaImpl of ItemMeta {
             ItemName::AthleticTrainers => ItemSlot::Shoe,
             ItemName::WorkBoots => ItemSlot::Shoe,
             ItemName::PlasticBag => ItemSlot::Bag,
+        }
+    }
+
+    fn nextUpgradeName(self: ItemName, timesUpgraded: u8) -> felt252 {
+        match self {
+            ItemName::Chain => {
+                if (timesUpgraded == 0) {
+                    return 'Tactical Grip';
+                } else if (timesUpgraded == 1) {
+                    return 'Reinforced Links';
+                } else {
+                    return 'Spiked End';
+                }
+            },
+            ItemName::BaseballBat => {
+                if (timesUpgraded == 0) {
+                    return 'Grip Tape';
+                } else if (timesUpgraded == 1) {
+                    return 'Corked Bat';
+                } else {
+                    return 'Aluminum Bat';
+                }
+            },
+            ItemName::AK47 => {
+                if (timesUpgraded == 0) {
+                    return 'Extended Mag';
+                } else if (timesUpgraded == 1) {
+                    return 'Recoil Compensator';
+                } else {
+                    return 'Laser Sight';
+                }
+            },
+            ItemName::BloodStainedShirt => {
+                if (timesUpgraded == 0) {
+                    return 'Reinforced Stitching';
+                } else if (timesUpgraded == 1) {
+                    return 'Polyester Blend';
+                } else {
+                    return 'More Blood';
+                }
+            },
+            ItemName::TrenchCoat => {
+                if (timesUpgraded == 0) {
+                    return 'Tailor Fitting';
+                } else if (timesUpgraded == 1) {
+                    return 'Treated Leather';
+                } else {
+                    return 'Ballistic Inserts';
+                }
+            },
+            ItemName::BulletProofVest => {
+                if (timesUpgraded == 0) {
+                    return 'Shoulder Straps';
+                } else if (timesUpgraded == 1) {
+                    return 'Thermal Ventilation';
+                } else {
+                    return 'Ceramic Plate Inserts';
+                }
+            },
+            ItemName::AllBlackSneakers => {
+                if (timesUpgraded == 0) {
+                    return 'Fresh Laces';
+                } else if (timesUpgraded == 1) {
+                    return 'Ventilated Mesh';
+                } else {
+                    return 'Memory Foam Insoles';
+                }
+            },
+            ItemName::AthleticTrainers => {
+                if (timesUpgraded == 0) {
+                    return 'Quick-Lace System';
+                } else if (timesUpgraded == 1) {
+                    return 'Anti-Slip Outsoles';
+                } else {
+                    return 'Memory Foam Insoles';
+                }
+            },
+            ItemName::WorkBoots => {
+                if (timesUpgraded == 0) {
+                    return 'Locking Laces';
+                } else if (timesUpgraded == 1) {
+                    return 'Shock-Absorbing Insoles';
+                } else {
+                    return 'Steel-toed Cap';
+                }
+            },
+            ItemName::PlasticBag => {
+                if (timesUpgraded == 0) {
+                    return 'Fanny Pack';
+                } else if (timesUpgraded == 1) {
+                    return 'Backpack';
+                } else {
+                    return 'Duffel Bag';
+                }
+            },
         }
     }
 }

@@ -9,6 +9,7 @@ const MAX_UPGRADE_COUNT: u8 = 3;
 struct AvailableItem {
     slot: ItemSlot,
     name: felt252,
+    upgrade_name: felt252,
     upgrade_cost: u128,
     impacting_stat: ItemStat,
 }
@@ -195,6 +196,7 @@ mod shop {
                                 AvailableItem {
                                     slot: item.slot,
                                     name: item.name.name(),
+                                    upgrade_name: item.name.nextUpgradeName(item.times_upgraded),
                                     upgrade_cost: upgrade_cost / SCALING_FACTOR,
                                     impacting_stat: item.stat,
                                 }
