@@ -62,6 +62,8 @@ mod shop {
         player_id: ContractAddress,
         item_slot: ItemSlot,
         level: u8,
+        item_name: felt252,
+        upgrade_name: felt252,
         cost: u32
     }
 
@@ -123,6 +125,8 @@ mod shop {
 
             set!(world, (player));
 
+            let upgrade_name = item.name.nextUpgradeName(item.times_upgraded);
+
             // update item
             item.times_upgraded += 1;
             item.tier = item.tier.nextTier();
@@ -136,6 +140,8 @@ mod shop {
                     player_id,
                     item_slot,
                     level: item.times_upgraded,
+                    item_name: item.name.name(),
+                    upgrade_name,
                     cost: (upgrade_cost / SCALING_FACTOR).try_into().unwrap()
                 }
             );

@@ -1812,7 +1812,7 @@
     {
       "name": "profile",
       "address": "0x257c5ee0f8e5299a386624e1d59e898a6cbfa4e321ecee83a4f7871eea51483",
-      "class_hash": "0x3fe4e07c5959daa1538d93845c5ead736b5dc2b053614c4ad7b5392ac7cd7e7",
+      "class_hash": "0x29b6f3aab8687748edd7a047816c4073027313d0190807f8da8c5304c9862ef",
       "abi": [
         {
           "type": "impl",
@@ -2143,7 +2143,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x7c7114612c0b4f571473f397e5203d0bf80be27cc96d0eac220e9d8a8749d7d",
+      "class_hash": "0x7c69dc416d568c14eae7be7beaf3c540843546f313a9401a6a86982b006cf19",
       "abi": [
         {
           "type": "impl",
@@ -2431,6 +2431,16 @@
             {
               "name": "level",
               "type": "core::integer::u8",
+              "kind": "data"
+            },
+            {
+              "name": "item_name",
+              "type": "core::felt252",
+              "kind": "data"
+            },
+            {
+              "name": "upgrade_name",
+              "type": "core::felt252",
               "kind": "data"
             },
             {

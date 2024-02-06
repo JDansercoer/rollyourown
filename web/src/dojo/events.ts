@@ -88,6 +88,8 @@ export interface BoughtItemEventData extends BaseEventData {
   playerId: string;
   itemSlot: string;
   level: number;
+  item_name: string;
+  upgrade_name: string;
   cost: number;
 }
 
@@ -236,7 +238,9 @@ export const parseEvent = (raw: any) => {
         playerId: num.toHexString(raw.keys[2]),
         itemSlot: num.toHexString(raw.data[0]),
         level: Number(raw.data[1]),
-        cost: Number(raw.data[2]),
+        item_name: shortString.decodeShortString(raw.data[2]),
+        upgrade_name: shortString.decodeShortString(raw.data[3]),
+        cost: Number(raw.data[4]),
       } as BoughtItemEventData;
 
     case WorldEvents.GameOver:

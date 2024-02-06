@@ -53,6 +53,7 @@ import { Action, Outcome, PlayerStatus } from "@/dojo/types";
 import { SCALING_FACTOR } from "@/dojo/constants";
 import Profile from "@/components/profile/Stats";
 import Loadout from "@/components/profile/Loadout";
+import { getIconForItem } from "@/utils/items";
 
 type LogByDay = {
   day: number;
@@ -278,16 +279,8 @@ function renderAtPawnshop(log: GameOverEventData, key: string) {
 }
 
 function renderBoughtItem(log: BoughtItemEventData, key: string) {
-  return (
-    <Line
-      key={key}
-      icon={Home}
-      text={`Bought something`}
-      total={`- ${formatCash(log.cost)}`}
-      color="yellow.400"
-      iconColor="yellow.400"
-    />
-  );
+  const Icon = getIconForItem(log.item_name);
+  return <Line key={key} icon={Icon} text={`Bought ${log.upgrade_name}`} total={`- ${formatCash(log.cost)}`} />;
 }
 
 function renderBought(log: BoughtEventData, key: string) {

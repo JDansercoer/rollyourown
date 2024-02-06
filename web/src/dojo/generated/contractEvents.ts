@@ -68,6 +68,8 @@ export interface BoughtItemData {
   player_id: RecsType.String;
   item_slot: RecsType.String;
   level: RecsType.Number;
+  item_name: RecsType.BigInt;
+  upgrade_name: RecsType.BigInt;
   cost: RecsType.Number;
 }
 
