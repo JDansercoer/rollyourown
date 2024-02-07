@@ -9,7 +9,7 @@ export default function Stats() {
   if (!playerEntity || !playerStats) return null;
 
   return (
-    <VStack w="40%">
+    <VStack w={["full", "40%"]}>
       <Text fontSize="48px">{playerEntity.name}</Text>
       <HStack flexGrow={1} alignSelf="stretch" justifyContent="center" spacing={16}>
         <Hustler hustler={playerEntity.hustler} w="100px" h="270px" />
