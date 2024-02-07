@@ -949,7 +949,7 @@
     {
       "name": "decide",
       "address": "0x260e5299f82c57b6e88b41b83a0f09fc3b9b5fedf13f5f2859f6eee7150928e",
-      "class_hash": "0x5f18732d291f36c58e29277e82630d533a5de5084b9d957a9f58f4a3758c03a",
+      "class_hash": "0x7d51869206a98ce32a48df796f7833eb7992c2bdf0695d3d3090ebc5de9d834",
       "abi": [
         {
           "type": "impl",
@@ -1275,7 +1275,6 @@
       "reads": [
         "Drug",
         "Game",
-        "Item",
         "Player"
       ],
       "writes": [
@@ -1287,7 +1286,7 @@
     {
       "name": "hustler",
       "address": "0x764256a9879700d71dc59a10120fd866b226cd3b15d8accd31170fbf0df5151",
-      "class_hash": "0x5d06a96dccf3e5c856e3d104e806a6cd35defd9705672fcea239fa4ccb4ca0f",
+      "class_hash": "0x191c8eae69a320be1dba810c10f139dd6d23ebdc566790722acf1f7e3512662",
       "abi": [
         {
           "type": "impl",
@@ -1368,7 +1367,7 @@
         },
         {
           "type": "enum",
-          "name": "rollyourown::models::itemNew::ItemTier",
+          "name": "rollyourown::models::item::ItemTier",
           "variants": [
             {
               "name": "Tier1",
@@ -1402,19 +1401,19 @@
           "members": [
             {
               "name": "attackTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
+              "type": "rollyourown::models::item::ItemTier"
             },
             {
               "name": "defenseTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
+              "type": "rollyourown::models::item::ItemTier"
             },
             {
               "name": "transportTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
+              "type": "rollyourown::models::item::ItemTier"
             },
             {
               "name": "speedTier",
-              "type": "rollyourown::models::itemNew::ItemTier"
+              "type": "rollyourown::models::item::ItemTier"
             }
           ]
         },
@@ -1541,7 +1540,7 @@
     {
       "name": "lobby",
       "address": "0x226160a3c18a596a3ec1905f13d8ad25955ae27311fd0ef10b182b21812a0cb",
-      "class_hash": "0x1b96ebc0f21673e9c63bd01247870377d3be238a471bce86d2009c597e376b7",
+      "class_hash": "0x70756b246766c3baa7ee771480ceb330cdb9155ca5632161bf1550b0349a73c",
       "abi": [
         {
           "type": "impl",
@@ -1812,7 +1811,7 @@
     {
       "name": "profile",
       "address": "0x257c5ee0f8e5299a386624e1d59e898a6cbfa4e321ecee83a4f7871eea51483",
-      "class_hash": "0x29b6f3aab8687748edd7a047816c4073027313d0190807f8da8c5304c9862ef",
+      "class_hash": "0x60f45bf9daff32c83734bb9495dda96a0c115fc195914e0207224acc3fea9c9",
       "abi": [
         {
           "type": "impl",
@@ -2003,7 +2002,7 @@
         }
       ],
       "reads": [
-        "ItemNew"
+        "Item"
       ],
       "writes": [],
       "computed": []
@@ -2143,7 +2142,7 @@
     {
       "name": "shop",
       "address": "0x4273123f2ce39a3ea67518cc2d28969bd014284637e8a5f876ca463aea45089",
-      "class_hash": "0x7c69dc416d568c14eae7be7beaf3c540843546f313a9401a6a86982b006cf19",
+      "class_hash": "0xe3a442f52074869d44cdf9d3e25595a86be0ecb7382f00581795fb7e865d50",
       "abi": [
         {
           "type": "impl",
@@ -2198,7 +2197,7 @@
         },
         {
           "type": "enum",
-          "name": "rollyourown::models::itemNew::ItemSlot",
+          "name": "rollyourown::models::item::ItemSlot",
           "variants": [
             {
               "name": "Weapon",
@@ -2220,7 +2219,7 @@
         },
         {
           "type": "enum",
-          "name": "rollyourown::models::itemNew::ItemStat",
+          "name": "rollyourown::models::item::ItemStat",
           "variants": [
             {
               "name": "DMG",
@@ -2246,7 +2245,7 @@
           "members": [
             {
               "name": "slot",
-              "type": "rollyourown::models::itemNew::ItemSlot"
+              "type": "rollyourown::models::item::ItemSlot"
             },
             {
               "name": "name",
@@ -2262,7 +2261,7 @@
             },
             {
               "name": "impacting_stat",
-              "type": "rollyourown::models::itemNew::ItemStat"
+              "type": "rollyourown::models::item::ItemStat"
             }
           ]
         },
@@ -2322,7 +2321,7 @@
                 },
                 {
                   "name": "item_slot",
-                  "type": "rollyourown::models::itemNew::ItemSlot"
+                  "type": "rollyourown::models::item::ItemSlot"
                 }
               ],
               "outputs": [],
@@ -2425,7 +2424,7 @@
             },
             {
               "name": "item_slot",
-              "type": "rollyourown::models::itemNew::ItemSlot",
+              "type": "rollyourown::models::item::ItemSlot",
               "kind": "data"
             },
             {
@@ -2451,50 +2450,6 @@
           ]
         },
         {
-          "type": "enum",
-          "name": "rollyourown::models::item::ItemEnum",
-          "variants": [
-            {
-              "name": "Attack",
-              "type": "()"
-            },
-            {
-              "name": "Defense",
-              "type": "()"
-            },
-            {
-              "name": "Transport",
-              "type": "()"
-            },
-            {
-              "name": "Speed",
-              "type": "()"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "rollyourown::systems::shop::shop::DroppedItem",
-          "kind": "struct",
-          "members": [
-            {
-              "name": "game_id",
-              "type": "core::integer::u32",
-              "kind": "key"
-            },
-            {
-              "name": "player_id",
-              "type": "core::starknet::contract_address::ContractAddress",
-              "kind": "key"
-            },
-            {
-              "name": "item_id",
-              "type": "rollyourown::models::item::ItemEnum",
-              "kind": "data"
-            }
-          ]
-        },
-        {
           "type": "event",
           "name": "rollyourown::systems::shop::shop::Event",
           "kind": "enum",
@@ -2508,22 +2463,17 @@
               "name": "BoughtItem",
               "type": "rollyourown::systems::shop::shop::BoughtItem",
               "kind": "nested"
-            },
-            {
-              "name": "DroppedItem",
-              "type": "rollyourown::systems::shop::shop::DroppedItem",
-              "kind": "nested"
             }
           ]
         }
       ],
       "reads": [
         "Game",
-        "ItemNew",
+        "Item",
         "Player"
       ],
       "writes": [
-        "ItemNew",
+        "Item",
         "Player"
       ],
       "computed": []
@@ -2531,7 +2481,7 @@
     {
       "name": "trade",
       "address": "0x33e7623715493a8b1bf3a0eb0938e28dcbca0ac1459594d6d662181ae5ed701",
-      "class_hash": "0x70a0f913d348d384ceb6b3532e88db52b66cee8c00b12ac34abc9729417be0",
+      "class_hash": "0xeff223bfe8b295fc01a9ad493c2476788cc1e063f31713bbe59aed4b195dc7",
       "abi": [
         {
           "type": "impl",
@@ -3841,32 +3791,32 @@
           "key": true
         },
         {
-          "name": "item_id",
-          "type": "ItemEnum",
+          "name": "slot",
+          "type": "ItemSlot",
           "key": true
         },
         {
-          "name": "level",
-          "type": "u8",
-          "key": false
-        },
-        {
           "name": "name",
-          "type": "felt252",
+          "type": "ItemName",
           "key": false
         },
         {
-          "name": "value",
-          "type": "usize",
+          "name": "tier",
+          "type": "ItemTier",
           "key": false
         },
         {
           "name": "stat",
-          "type": "ItemEnum",
+          "type": "ItemStat",
+          "key": false
+        },
+        {
+          "name": "times_upgraded",
+          "type": "u8",
           "key": false
         }
       ],
-      "class_hash": "0x1e8eebdd0fc949c1e90c261fa62310474342b5444cabbdefe9ce50b1eed4c87",
+      "class_hash": "0x340e579b7ad140dc784ff16ee8ea1266b67da234961d8590f9a252e58390f4a",
       "abi": [
         {
           "type": "function",
@@ -4024,208 +3974,6 @@
         {
           "type": "event",
           "name": "rollyourown::models::item::item::Event",
-          "kind": "enum",
-          "variants": []
-        }
-      ]
-    },
-    {
-      "name": "ItemNew",
-      "members": [
-        {
-          "name": "game_id",
-          "type": "u32",
-          "key": true
-        },
-        {
-          "name": "player_id",
-          "type": "ContractAddress",
-          "key": true
-        },
-        {
-          "name": "slot",
-          "type": "ItemSlot",
-          "key": true
-        },
-        {
-          "name": "name",
-          "type": "ItemName",
-          "key": false
-        },
-        {
-          "name": "tier",
-          "type": "ItemTier",
-          "key": false
-        },
-        {
-          "name": "stat",
-          "type": "ItemStat",
-          "key": false
-        },
-        {
-          "name": "times_upgraded",
-          "type": "u8",
-          "key": false
-        }
-      ],
-      "class_hash": "0x55689977c08e11e77b1cd9befd713a6a9661a9735c9763031e64d68402177d3",
-      "abi": [
-        {
-          "type": "function",
-          "name": "name",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::felt252"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "unpacked_size",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::integer::u32"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "packed_size",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::integer::u32"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<core::integer::u8>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::integer::u8>"
-            }
-          ]
-        },
-        {
-          "type": "function",
-          "name": "layout",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::array::Span::<core::integer::u8>"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<core::felt252>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::felt252>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<core::array::Span::<core::felt252>>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::array::Span::<core::felt252>>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "dojo::database::introspect::Struct",
-          "members": [
-            {
-              "name": "name",
-              "type": "core::felt252"
-            },
-            {
-              "name": "attrs",
-              "type": "core::array::Span::<core::felt252>"
-            },
-            {
-              "name": "children",
-              "type": "core::array::Span::<core::array::Span::<core::felt252>>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<(core::felt252, core::array::Span::<core::felt252>)>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<(core::felt252, core::array::Span::<core::felt252>)>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "dojo::database::introspect::Enum",
-          "members": [
-            {
-              "name": "name",
-              "type": "core::felt252"
-            },
-            {
-              "name": "attrs",
-              "type": "core::array::Span::<core::felt252>"
-            },
-            {
-              "name": "children",
-              "type": "core::array::Span::<(core::felt252, core::array::Span::<core::felt252>)>"
-            }
-          ]
-        },
-        {
-          "type": "enum",
-          "name": "dojo::database::introspect::Ty",
-          "variants": [
-            {
-              "name": "Primitive",
-              "type": "core::felt252"
-            },
-            {
-              "name": "Struct",
-              "type": "dojo::database::introspect::Struct"
-            },
-            {
-              "name": "Enum",
-              "type": "dojo::database::introspect::Enum"
-            },
-            {
-              "name": "Tuple",
-              "type": "core::array::Span::<core::array::Span::<core::felt252>>"
-            }
-          ]
-        },
-        {
-          "type": "function",
-          "name": "schema",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "dojo::database::introspect::Ty"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "event",
-          "name": "rollyourown::models::itemNew::item_new::Event",
           "kind": "enum",
           "variants": []
         }

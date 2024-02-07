@@ -62,24 +62,6 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          level: RecsType.Number,
-          name: RecsType.BigInt,
-          value: RecsType.Number,
-          stat: RecsType.Number,
-        },
-        {
-          metadata: {
-            name: name,
-            types: ["u8", "felt252", "usize", "ItemEnum"],
-          },
-        },
-      );
-    })(),
-    ItemNew: (() => {
-      const name = "ItemNew";
-      return defineComponent(
-        world,
-        {
           name: RecsType.Number,
           tier: RecsType.Number,
           stat: RecsType.Number,

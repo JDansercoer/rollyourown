@@ -36,12 +36,6 @@ query PlayerEntity($gameId: String!, $playerId: String!) {
             drug_id
             quantity
           }
-          ... on Item {
-            item_id
-            level
-            name
-            value
-          }
           ... on Encounter {
             encounter_id
             level
@@ -76,12 +70,6 @@ subscription PlayerEntityRelatedDataSubscription($id: ID) {
       ... on Drug {
         drug_id
         quantity
-      }
-      ... on Item {
-        item_id
-        level
-        name
-        value
       }
       ... on Encounter {
         encounter_id
