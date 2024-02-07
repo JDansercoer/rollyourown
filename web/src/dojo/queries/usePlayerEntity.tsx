@@ -40,7 +40,6 @@ export class PlayerEntity {
   hustler: Hustler;
 
   drugs: Drug[];
-  items: ShopItem[];
   encounters: Encounter[];
 
   attack: number;
@@ -53,7 +52,7 @@ export class PlayerEntity {
 
   canUseShop: boolean;
 
-  constructor(player: Player, drugs: Drug[], items: ShopItem[], encounters: Encounter[]) {
+  constructor(player: Player, drugs: Drug[], encounters: Encounter[]) {
     this.name = profanity.censor(shortString.decodeShortString(player.name));
     this.avatarId = player.avatar_id;
     this.cash = Number(player.cash) / SCALING_FACTOR;
@@ -79,7 +78,6 @@ export class PlayerEntity {
     this.gameOver = player.game_over;
 
     this.drugs = drugs;
-    this.items = items;
     this.encounters = encounters;
 
     this.canUseShop = player.can_use_shop;
@@ -119,23 +117,6 @@ export class PlayerEntity {
     return this;
   }
 
-  updateItem(newItem: ItemType) {
-    const item = this.items.find((i) => i.id === newItem.item_id);
-    if (item) {
-      item.level = newItem.level;
-      item.value = newItem.value;
-      item.name = shortString.decodeShortString(newItem.name);
-    } else {
-      this.items.push({
-        id: newItem.item_id as ItemTextEnum,
-        level: newItem.level,
-        name: shortString.decodeShortString(newItem.name),
-        value: newItem.value,
-      });
-    }
-    return this;
-  }
-
   updateEncounter(newEncounter: Encounter) {
     const encounter = this.encounters.find((i) => i.encounter_id === newEncounter.encounter_id);
     if (encounter) {
@@ -149,38 +130,6 @@ export class PlayerEntity {
       });
     }
     return this;
-  }
-
-  getAttack(): number {
-    const item = this.items.find((i) => i.id === ItemTextEnum.Attack);
-    if (item) {
-      return this.attack + item.value;
-    }
-    return this.attack;
-  }
-
-  getDefense(): number {
-    const item = this.items.find((i) => i.id === ItemTextEnum.Defense);
-    if (item) {
-      return this.defense + item.value;
-    }
-    return this.defense;
-  }
-
-  getTransport(): number {
-    const item = this.items.find((i) => i.id === ItemTextEnum.Transport);
-    if (item) {
-      return this.transport + item.value;
-    }
-    return this.transport;
-  }
-
-  getSpeed(): number {
-    const item = this.items.find((i) => i.id === ItemTextEnum.Speed);
-    if (item) {
-      return this.speed + item.value;
-    }
-    return this.speed;
   }
 
   static create(edges: World__EntityEdge[]): PlayerEntity | undefined {
@@ -203,20 +152,6 @@ export class PlayerEntity {
       };
     });
 
-    // items
-    const itemEdges = edges.filter((edge) => edge.node?.models?.find((model) => model?.__typename === "Item"));
-
-    const items: ShopItem[] = itemEdges.map((edge) => {
-      const itemModel = edge.node?.models?.find((model) => model?.__typename === "Item") as ItemType;
-
-      return {
-        id: itemModel.item_id as ItemTextEnum,
-        level: itemModel.level,
-        name: shortString.decodeShortString(itemModel.name),
-        value: itemModel.value,
-      };
-    });
-
     // encounters
     const encounterEdges = edges.filter((edge) =>
       edge.node?.models?.find((model) => model?.__typename === "Encounter"),
@@ -232,6 +167,6 @@ export class PlayerEntity {
 
     if (!playerModel) return undefined;
 
-    return new PlayerEntity(playerModel, drugs, items, encounters);
+    return new PlayerEntity(playerModel, drugs, encounters);
   }
 }

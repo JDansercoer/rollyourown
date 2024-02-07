@@ -23,7 +23,7 @@ export const Inventory = ({ ...props }: StyleProps) => {
         <HStack color={playerEntity?.drugCount === 0 ? "neon.500" : "yellow.400"} justify="center">
           <Bag />
           <Text>
-            {playerEntity?.drugCount}/{playerEntity?.getTransport()}
+            {playerEntity?.drugCount}/{playerEntity?.transport}
           </Text>
         </HStack>
       </HStack>

@@ -76,7 +76,7 @@ export default function Location() {
         <Footer>
           <Button
             w={["full", "auto"]}
-            px={["auto","20px"]}
+            px={["auto", "20px"]}
             isLoading={isPending}
             onClick={async () => {
               if (isLastDay) {
@@ -100,7 +100,7 @@ export default function Location() {
         <SimpleGrid columns={2} w="full" gap={["10px", "16px"]} fontSize={["16px", "20px"]}>
           {sortDrugMarkets(locationEntity.drugMarkets).map((drug, index) => {
             const drugInfo = getDrugById(drug.id)!;
-            const canBuy = drug.price <= playerEntity.cash && playerEntity.drugCount < playerEntity.getTransport();
+            const canBuy = drug.price <= playerEntity.cash && playerEntity.drugCount < playerEntity.transport;
             const canSell = !!playerEntity.drugs.find((d) => d.id === drug.id && d.quantity > 0);
             return (
               <Card h={["auto", "180px"]} key={index} position="relative">
