@@ -12,7 +12,7 @@ export const NameInputModal = ({ isOpen, close, onSubmit }: NameInputModalProps)
   const [name, setName] = useState("");
 
   return (
-    <Modal isOpen={isOpen} onClose={close} isCentered size="sm">
+    <Modal isOpen={isOpen} onClose={close} isCentered size="sm" trapFocus={false}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader textAlign="center">ENTER NAME</ModalHeader>
@@ -22,7 +22,6 @@ export const NameInputModal = ({ isOpen, close, onSubmit }: NameInputModalProps)
             mx="auto"
             maxLength={20}
             placeholder="Enter your name"
-            autoFocus={true}
             value={name}
             onChange={(e) => {
               setName(e.target.value);
