@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import Layout from "@/components/Layout";
 import Button from "@/components/Button";
-import { VStack, HStack, Text } from "@chakra-ui/react";
+import { VStack, Text, Grid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { ItemSlot, ShopItemInfo } from "@/dojo/types";
@@ -121,23 +121,32 @@ export default function PawnShop() {
                   justifyContent="stretch"
                   p={3}
                 >
-                  <HStack w="full" gap={4}>
-                    <Icon boxSize={10} />
-                    <VStack flexGrow={1} alignItems="flex-start" spacing={0}>
-                      <Text fontSize="10px" opacity={0.5} fontFamily="broken-console">
-                        {shopItem.slot} upgrade
-                      </Text>
-                      <Text textStyle="heading" fontSize="16px" textTransform="capitalize">
-                        {shopItem.upgrade_name}
-                      </Text>
-                    </VStack>
-                    <VStack alignItems="flex-end" spacing={0}>
-                      <Text fontSize="10px" opacity={0.5} fontFamily="broken-console">
-                        + {shopItem.impacting_stat}
-                      </Text>
-                      <Text fontSize="16px">${shopItem.upgrade_cost.toLocaleString()}</Text>
-                    </VStack>
-                  </HStack>
+                  <Grid
+                    maxW="full"
+                    columnGap={4}
+                    templateColumns="max-content minmax(auto, 1fr) max-content"
+                    justifyItems="start"
+                  >
+                    <Icon boxSize={10} gridRow="span 2" />
+                    <Text fontSize="10px" opacity={0.5} fontFamily="broken-console">
+                      {shopItem.slot} upgrade
+                    </Text>
+                    <Text fontSize="10px" opacity={0.5} fontFamily="broken-console" justifySelf="end">
+                      + {shopItem.impacting_stat}
+                    </Text>
+                    <Text
+                      textStyle="heading"
+                      fontSize="16px"
+                      textTransform="capitalize"
+                      whiteSpace="nowrap"
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      maxW="100%"
+                    >
+                      {shopItem.upgrade_name} with a very long name
+                    </Text>
+                    <Text fontSize="16px">${shopItem.upgrade_cost.toLocaleString()}</Text>
+                  </Grid>
                 </Button>
               );
             })}
