@@ -36,9 +36,7 @@ mod shop {
     use rollyourown::models::location::{Location, LocationEnum};
     use rollyourown::models::game::{Game, GameTrait};
     use rollyourown::models::item::{Item, ItemTrait, ItemEnum};
-    use rollyourown::utils::settings::{
-        ItemSettings, ItemSettingsImpl, ShopSettings, ShopSettingsImpl, getStatValueAndCost
-    };
+    use rollyourown::utils::settings::{ShopSettings, ShopSettingsImpl, getStatValueAndCost};
     use rollyourown::utils::random::{RandomImpl};
     use rollyourown::systems::travel::on_turn_end;
     use rollyourown::models::itemNew::{

@@ -1,7 +1,6 @@
 use rollyourown::constants::SCALING_FACTOR;
 use rollyourown::models::game::GameMode;
 use rollyourown::models::drug::DrugEnum;
-use rollyourown::models::item::{ItemEnum};
 use rollyourown::models::itemNew::{ItemTier, ItemName, ItemMetaImpl, ItemStat};
 use rollyourown::models::player::Player;
 use rollyourown::systems::hustler::Hustler;
@@ -67,13 +66,6 @@ struct PriceSettings {
 }
 
 #[derive(Copy, Drop, Serde)]
-struct ItemSettings {
-    name: felt252,
-    cost: u128,
-    value: usize
-}
-
-#[derive(Copy, Drop, Serde)]
 struct ShopSettings {
     max_item_allowed: u8,
     max_item_level: u8,
@@ -103,10 +95,6 @@ trait DrugSettingsTrait<T> {
 
 trait PlayerSettingsTrait<T> {
     fn get(game_mode: GameMode, player: @Player) -> T;
-}
-
-trait ItemSettingsTrait<T> {
-    fn get(game_mode: GameMode, item_id: ItemEnum, level: u8) -> T;
 }
 
 trait EncounterSettingsTrait<T> {
@@ -224,50 +212,6 @@ impl ShopSettingsImpl of SettingsTrait<ShopSettings> {
         }
 
         shop_settings
-    }
-}
-
-impl ItemSettingsImpl of ItemSettingsTrait<ItemSettings> {
-    fn get(game_mode: GameMode, item_id: ItemEnum, level: u8) -> ItemSettings {
-        let item_settings = match item_id {
-            ItemEnum::Attack => {
-                if level == 1 {
-                    ItemSettings { name: 'Knife', cost: 450 * SCALING_FACTOR, value: 9 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Glock', cost: 12000 * SCALING_FACTOR, value: 24 }
-                } else {
-                    ItemSettings { name: 'Uzi', cost: 99000 * SCALING_FACTOR, value: 49 }
-                }
-            },
-            ItemEnum::Defense => {
-                if level == 1 {
-                    ItemSettings { name: 'Knee pads', cost: 350 * SCALING_FACTOR, value: 24 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Leather Jacket', cost: 8900 * SCALING_FACTOR, value: 39 }
-                } else {
-                    ItemSettings { name: 'Kevlar', cost: 69000 * SCALING_FACTOR, value: 59 }
-                }
-            },
-            ItemEnum::Transport => {
-                if level == 1 {
-                    ItemSettings { name: 'Fanny pack', cost: 500 * SCALING_FACTOR, value: 30 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Backpack', cost: 15000 * SCALING_FACTOR, value: 60 }
-                } else {
-                    ItemSettings { name: 'Duffle Bag', cost: 99000 * SCALING_FACTOR, value: 100 }
-                }
-            },
-            ItemEnum::Speed => {
-                if level == 1 {
-                    ItemSettings { name: 'Shoes', cost: 250 * SCALING_FACTOR, value: 9 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Skateboard', cost: 9900 * SCALING_FACTOR, value: 24 }
-                } else {
-                    ItemSettings { name: 'Bicycle', cost: 79000 * SCALING_FACTOR, value: 39 }
-                }
-            },
-        };
-        item_settings
     }
 }
 
