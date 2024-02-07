@@ -295,7 +295,7 @@ mod decide {
             );
 
             // calc player dmg
-            let mut attack = (*player).get_attack(world);
+            let mut attack = (*player).attack;
             let random_attack: usize = randomizer.between::<usize>(0, (attack / 5).into());
 
             let random_dir = randomizer.bool();

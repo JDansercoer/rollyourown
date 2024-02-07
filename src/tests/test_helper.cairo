@@ -10,7 +10,6 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use rollyourown::models::drug::{drug, Drug};
 use rollyourown::models::game::{game, Game};
-use rollyourown::models::item::{item, Item};
 use rollyourown::models::market::{market, Market};
 use rollyourown::models::player::{player, Player};
 use rollyourown::models::encounter::{encounter, Encounter};
@@ -46,7 +45,6 @@ fn spawn_world() -> (IWorldDispatcher, SystemDispatchers) {
     let models = array![
         drug::TEST_CLASS_HASH,
         game::TEST_CLASS_HASH,
-        item::TEST_CLASS_HASH,
         market::TEST_CLASS_HASH,
         player::TEST_CLASS_HASH,
         encounter::TEST_CLASS_HASH,

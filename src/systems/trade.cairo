@@ -90,7 +90,7 @@ mod trade {
             let mut player = get!(world, (game_id, player_id).into(), Player);
             assert(player.location_id == location_id, 'player is not at location');
             assert(player.can_continue(), 'player cannot trade');
-            assert(player.drug_count + quantity <= player.get_transport(world), 'no bag space');
+            assert(player.drug_count + quantity <= player.transport, 'no bag space');
 
             let mut market = get!(world, (game_id, location_id, drug_id).into(), Market);
 

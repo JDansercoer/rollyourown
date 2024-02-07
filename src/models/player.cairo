@@ -5,7 +5,6 @@ use dojo::database::introspect::{
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 
 use rollyourown::models::location::LocationEnum;
-use rollyourown::models::item::{Item, ItemEnum};
 use rollyourown::models::itemNew::ItemStat;
 use rollyourown::systems::hustler::Hustler;
 
@@ -58,52 +57,6 @@ impl PlayerImpl of PlayerTrait {
         }
 
         true
-    }
-
-    fn get_item_count(self: Player, world: IWorldDispatcher) -> u8 {
-        let attack_item = get!(world, (self.game_id, self.player_id, ItemEnum::Attack), (Item));
-        let defense_item = get!(world, (self.game_id, self.player_id, ItemEnum::Defense), (Item));
-        let transport_item = get!(
-            world, (self.game_id, self.player_id, ItemEnum::Transport), (Item)
-        );
-        let speed_item = get!(world, (self.game_id, self.player_id, ItemEnum::Speed), (Item));
-
-        let mut total: u8 = if attack_item.level > 0 {
-            1
-        } else {
-            0
-        };
-        if defense_item.level > 0 {
-            total += 1;
-        }
-        if transport_item.level > 0 {
-            total += 1;
-        }
-        if speed_item.level > 0 {
-            total += 1;
-        }
-
-        total
-    }
-
-    fn get_attack(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Attack), (Item));
-        self.attack + item.value
-    }
-
-    fn get_defense(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Defense), (Item));
-        self.defense + item.value
-    }
-
-    fn get_transport(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Transport), (Item));
-        self.transport + item.value
-    }
-
-    fn get_speed(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Speed), (Item));
-        self.speed + item.value
     }
 }
 

@@ -32,7 +32,9 @@ impl RiskImpl of RiskTrait<RiskSettings> {
                         Option::None
                     } else {
                         Option::Some(
-                            EncounterImpl::get_or_spawn(world, player,ref randomizer, EncounterType::Cops)
+                            EncounterImpl::get_or_spawn(
+                                world, player, ref randomizer, EncounterType::Cops
+                            )
                         )
                     }
                 },
@@ -41,7 +43,9 @@ impl RiskImpl of RiskTrait<RiskSettings> {
                         Option::None
                     } else {
                         Option::Some(
-                            EncounterImpl::get_or_spawn(world, player, ref randomizer,EncounterType::Gang)
+                            EncounterImpl::get_or_spawn(
+                                world, player, ref randomizer, EncounterType::Gang
+                            )
                         )
                     }
                 }
@@ -54,7 +58,7 @@ impl RiskImpl of RiskTrait<RiskSettings> {
     fn run(
         self: RiskSettings, world: IWorldDispatcher, ref randomizer: Random, player: @Player
     ) -> bool {
-        let capture_threshold = self.capture - (*player).get_speed(world).try_into().unwrap();
+        let capture_threshold = self.capture - (*player).speed.try_into().unwrap();
         randomizer.occurs(capture_threshold)
     }
 
