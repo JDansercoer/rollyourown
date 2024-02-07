@@ -199,7 +199,7 @@ const QuantitySelector = ({
   useEffect(() => {
     if (type === TradeDirection.Buy) {
       let max_buyable = calculateMaxQuantity(market.marketPool, player.cash);
-      let bag_space = player.getTransport() - player.drugCount;
+      let bag_space = player.transport - player.drugCount;
       setMax(Math.min(max_buyable, bag_space));
     } else if (type === TradeDirection.Sell) {
       const playerQuantity = player.drugs.find((d) => d.id === drug.id)?.quantity;

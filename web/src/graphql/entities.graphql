@@ -17,6 +17,8 @@ fragment PlayerProps on Player {
   speed
   wanted
   game_over
+  can_use_shop
+  hustler
 }
 
 query PlayerEntity($gameId: String!, $playerId: String!) {
@@ -33,12 +35,6 @@ query PlayerEntity($gameId: String!, $playerId: String!) {
           ... on Drug {
             drug_id
             quantity
-          }
-          ... on Item {
-            item_id
-            level
-            name
-            value
           }
           ... on Encounter {
             encounter_id
@@ -74,12 +70,6 @@ subscription PlayerEntityRelatedDataSubscription($id: ID) {
       ... on Drug {
         drug_id
         quantity
-      }
-      ... on Item {
-        item_id
-        level
-        name
-        value
       }
       ... on Encounter {
         encounter_id

@@ -62,14 +62,15 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          level: RecsType.Number,
-          name: RecsType.BigInt,
-          value: RecsType.Number,
+          name: RecsType.Number,
+          tier: RecsType.Number,
+          stat: RecsType.Number,
+          times_upgraded: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            types: ["u8", "felt252", "usize"],
+            types: ["ItemName", "ItemTier", "ItemStat", "u8"],
           },
         },
       );
@@ -131,6 +132,9 @@ export function defineContractComponents(world: World) {
           wanted: RecsType.Number,
           leaderboard_version: RecsType.Number,
           game_over: RecsType.Boolean,
+          hustler: RecsType.Number,
+          can_use_shop: RecsType.Boolean,
+          shop_last_used: RecsType.Number,
         },
         {
           metadata: {
@@ -156,6 +160,9 @@ export function defineContractComponents(world: World) {
               "u8",
               "u32",
               "bool",
+              "Hustler",
+              "bool",
+              "usize",
             ],
           },
         },

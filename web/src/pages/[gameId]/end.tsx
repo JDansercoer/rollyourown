@@ -1,9 +1,6 @@
 import Header from "@/components/Header";
-import { Skull, Heart, DollarBag, Trophy, Pistol, Arrest, Roll, Siren } from "@/components/icons";
-import Input from "@/components/Input";
-import Leaderboard from "@/components/Leaderboard";
+import { DollarBag, Roll } from "@/components/icons";
 import { useDojoContext } from "@/dojo/hooks/useDojoContext";
-import { useSystems } from "@/dojo/hooks/useSystems";
 import {
   Container,
   Flex,
@@ -23,7 +20,6 @@ import {
   UnorderedList,
   ListItem,
   Link,
-  Box,
 } from "@chakra-ui/react";
 
 import { motion } from "framer-motion";
@@ -32,23 +28,18 @@ import Button from "@/components/Button";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { Calendar } from "@/components/icons/archive";
 import { formatCash } from "@/utils/ui";
-import { Footer } from "@/components/Footer";
-import { genAvatarFromId } from "@/components/avatar/avatars";
-import { Avatar } from "@/components/avatar/Avatar";
 import ShareButton from "@/components/ShareButton";
 import { playSound, Sounds } from "@/hooks/sound";
+import { HustlerThumbnail } from "@/components/hustler";
 
 export default function End() {
   const router = useRouter();
-  const gameId = router.query.gameId as string;
   const [name, setName] = useState("");
-  const [avatarId, setAvatarId] = useState(0);
   const [isDead, setIsDead] = useState(false);
   const [day, setDay] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCreditOpen, setIsCreditOpen] = useState<boolean>(false);
 
-  const { account, playerEntityStore } = useDojoContext();
+  const { playerEntityStore } = useDojoContext();
   const { playerEntity } = playerEntityStore;
 
   useEffect(() => {
@@ -60,19 +51,10 @@ export default function End() {
   useEffect(() => {
     if (playerEntity) {
       setName(playerEntity.name);
-      setAvatarId(playerEntity.avatarId);
       setIsDead(playerEntity?.health === 0);
       setDay(playerEntity.turn);
     }
   }, [playerEntity]);
-
-  // const onSubmitName = useCallback(async () => {
-  //   if (!name) return;
-
-  //   setIsSubmitting(true);
-  //   await submitSetName(gameId, name);
-  //   router.push("/");
-  // }, [name, gameId, router, submitSetName]);
 
   const onCreditClose = useCallback(() => {
     setIsCreditOpen(false);
@@ -106,27 +88,14 @@ export default function End() {
                 <Image src="/images/trophy1.gif" alt="winner" />
               </VStack>
               <VStack flex="1">
-                {/* <StatsItem text="Xth place" icon={<Trophy />} />
-                <Divider borderColor="neon.600" /> */}
-
-                <StatsItem text={name} icon={<Avatar name={genAvatarFromId(avatarId)} w="24px" h="24px" />} />
+                <StatsItem
+                  text={name}
+                  icon={playerEntity && <HustlerThumbnail hustler={playerEntity.hustler} w="24px" h="24px" />}
+                />
                 <Divider borderColor="neon.600" />
                 <StatsItem text={`Day ${day}`} icon={<Calendar />} />
                 <Divider borderColor="neon.600" />
                 <StatsItem text={`${formatCash(playerEntity?.cash || 0)}`} icon={<DollarBag />} />
-
-                {/* <StatsItem
-                  text={`${playerEntity?.health} Health`}
-                  icon={isDead ? <Skull color="green" /> : <Heart />}
-                />
-                <Divider borderColor="neon.600" />
-                <StatsItem text={`${playerEntity?.wanted}% Wanted`} icon={<Siren color="red" />} />
-                <Divider borderColor="neon.600" /> */}
-                {/* 
-                <Divider borderColor="neon.600" />
-                <StatsItem text="X Muggings" icon={<Pistol />} />
-                <Divider borderColor="neon.600" />
-                <StatsItem text="X Arrest" icon={<Arrest />} /> */}
               </VStack>
             </HStack>
 

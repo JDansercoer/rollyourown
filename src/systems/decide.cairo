@@ -33,7 +33,6 @@ mod decide {
     use rollyourown::models::player::{Player, PlayerTrait, PlayerStatus};
     use rollyourown::models::drug::{Drug, DrugEnum, DrugTrait};
     use rollyourown::models::location::{LocationEnum, LocationImpl};
-    use rollyourown::models::item::{Item, ItemEnum};
     use rollyourown::models::encounter::{Encounter, EncounterType, EncounterImpl};
     use rollyourown::models::leaderboard::{Leaderboard};
 
@@ -137,11 +136,8 @@ mod decide {
                             let random_loss: u8 = randomizer.between::<u8>(0, encounter_dmg.into());
 
                             let health_loss: u128 = (encounter_dmg + random_loss).into();
-                            let defense_item = get!(
-                                world, (game_id, player_id, ItemEnum::Defense), Item
-                            );
 
-                            let health_saved: u128 = health_loss.pct(defense_item.value.into());
+                            let health_saved: u128 = health_loss.pct(player.defense.into());
 
                             let final_health_loss: u8 = (health_loss - health_saved)
                                 .try_into()
@@ -295,7 +291,7 @@ mod decide {
             );
 
             // calc player dmg
-            let mut attack = (*player).get_attack(world);
+            let mut attack = (*player).attack;
             let random_attack: usize = randomizer.between::<usize>(0, (attack / 5).into());
 
             let random_dir = randomizer.bool();
@@ -331,13 +327,9 @@ mod decide {
                     encounter_dmg += random_dmg;
                 };
 
-                let defense_item = get!(
-                    world, ((*game).game_id, (*player).player_id, ItemEnum::Defense), Item
-                );
-
                 // reduce dmgs by defense_item.value %
                 let health_saved: u128 = ((SCALING_FACTOR
-                    * defense_item.value.into()
+                    * (*player).defense.into()
                     * encounter_dmg.into())
                     / 100)
                     / SCALING_FACTOR;

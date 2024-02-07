@@ -1,8 +1,9 @@
 use rollyourown::constants::SCALING_FACTOR;
 use rollyourown::models::game::GameMode;
 use rollyourown::models::drug::DrugEnum;
-use rollyourown::models::item::ItemEnum;
+use rollyourown::models::item::{ItemTier, ItemName, ItemMetaImpl, ItemStat};
 use rollyourown::models::player::Player;
+use rollyourown::systems::hustler::Hustler;
 
 
 #[derive(Copy, Drop, Serde)]
@@ -65,13 +66,6 @@ struct PriceSettings {
 }
 
 #[derive(Copy, Drop, Serde)]
-struct ItemSettings {
-    name: felt252,
-    cost: u128,
-    value: usize
-}
-
-#[derive(Copy, Drop, Serde)]
 struct ShopSettings {
     max_item_allowed: u8,
     max_item_level: u8,
@@ -103,10 +97,6 @@ trait PlayerSettingsTrait<T> {
     fn get(game_mode: GameMode, player: @Player) -> T;
 }
 
-trait ItemSettingsTrait<T> {
-    fn get(game_mode: GameMode, item_id: ItemEnum, level: u8) -> T;
-}
-
 trait EncounterSettingsTrait<T> {
     fn get(game_mode: GameMode, player: @Player, level: u8) -> T;
 }
@@ -133,10 +123,10 @@ impl PlayerSettingsImpl of SettingsTrait<PlayerSettings> {
             health: 100,
             cash: 1420_u128 * SCALING_FACTOR,
             wanted: 39,
-            attack: 1,
-            defense: 1,
-            transport: 60,
-            speed: 1
+            attack: 0,
+            defense: 0,
+            transport: 0,
+            speed: 0,
         };
 
         if game_mode == GameMode::Test {
@@ -222,50 +212,6 @@ impl ShopSettingsImpl of SettingsTrait<ShopSettings> {
         }
 
         shop_settings
-    }
-}
-
-impl ItemSettingsImpl of ItemSettingsTrait<ItemSettings> {
-    fn get(game_mode: GameMode, item_id: ItemEnum, level: u8) -> ItemSettings {
-        let item_settings = match item_id {
-            ItemEnum::Attack => {
-                if level == 1 {
-                    ItemSettings { name: 'Knife', cost: 450 * SCALING_FACTOR, value: 9 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Glock', cost: 12000 * SCALING_FACTOR, value: 24 }
-                } else {
-                    ItemSettings { name: 'Uzi', cost: 99000 * SCALING_FACTOR, value: 49 }
-                }
-            },
-            ItemEnum::Defense => {
-                if level == 1 {
-                    ItemSettings { name: 'Knee pads', cost: 350 * SCALING_FACTOR, value: 24 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Leather Jacket', cost: 8900 * SCALING_FACTOR, value: 39 }
-                } else {
-                    ItemSettings { name: 'Kevlar', cost: 69000 * SCALING_FACTOR, value: 59 }
-                }
-            },
-            ItemEnum::Transport => {
-                if level == 1 {
-                    ItemSettings { name: 'Fanny pack', cost: 500 * SCALING_FACTOR, value: 30 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Backpack', cost: 15000 * SCALING_FACTOR, value: 60 }
-                } else {
-                    ItemSettings { name: 'Duffle Bag', cost: 99000 * SCALING_FACTOR, value: 100 }
-                }
-            },
-            ItemEnum::Speed => {
-                if level == 1 {
-                    ItemSettings { name: 'Shoes', cost: 250 * SCALING_FACTOR, value: 9 }
-                } else if level == 2 {
-                    ItemSettings { name: 'Skateboard', cost: 9900 * SCALING_FACTOR, value: 24 }
-                } else {
-                    ItemSettings { name: 'Bicycle', cost: 79000 * SCALING_FACTOR, value: 39 }
-                }
-            },
-        };
-        item_settings
     }
 }
 
@@ -411,3 +357,128 @@ fn pricing_clicksave(drug_id: DrugEnum) -> PriceSettings {
         },
     }
 }
+
+fn getStatValueAndCost(stat: ItemStat, tier: ItemTier) -> (usize, u128) {
+    let (statValue, unscaledCost) = match stat {
+        ItemStat::DMG => {
+            match tier {
+                ItemTier::Tier1 => (8, 0),
+                ItemTier::Tier2 => (12, 400),
+                ItemTier::Tier3 => (18, 2500),
+                ItemTier::Tier4 => (27, 12000),
+                ItemTier::Tier5 => (40, 75000),
+                ItemTier::Tier6 => (60, 420000),
+            }
+        },
+        ItemStat::DEF => {
+            match tier {
+                ItemTier::Tier1 => (10, 0),
+                ItemTier::Tier2 => (14, 300),
+                ItemTier::Tier3 => (22, 1800),
+                ItemTier::Tier4 => (33, 10800),
+                ItemTier::Tier5 => (50, 64800),
+                ItemTier::Tier6 => (75, 388000),
+            }
+        },
+        ItemStat::SPD => {
+            match tier {
+                ItemTier::Tier1 => (8, 0),
+                ItemTier::Tier2 => (12, 275),
+                ItemTier::Tier3 => (18, 1600),
+                ItemTier::Tier4 => (27, 9600),
+                ItemTier::Tier5 => (40, 57600),
+                ItemTier::Tier6 => (60, 345600),
+            }
+        },
+        ItemStat::INV => {
+            match tier {
+                ItemTier::Tier1 => (0, 0),
+                ItemTier::Tier2 => (60, 0),
+                ItemTier::Tier3 => (90, 2000),
+                ItemTier::Tier4 => (130, 24000),
+                ItemTier::Tier5 => (200, 288000),
+                ItemTier::Tier6 => (200, 0),
+            }
+        },
+    };
+
+    (statValue, unscaledCost * SCALING_FACTOR)
+}
+
+#[derive(Copy, Drop)]
+struct InitialItems {
+    Attack: ItemName,
+    Defense: ItemName,
+    Transport: ItemName,
+    Speed: ItemName,
+}
+
+#[derive(Copy, Drop)]
+struct InitialStats {
+    Attack: usize,
+    Defense: usize,
+    Transport: usize,
+    Speed: usize,
+}
+
+trait HustlerTrait {
+    fn get_initial_items(self: Hustler) -> InitialItems;
+    fn get_initial_stats(self: Hustler) -> InitialStats;
+}
+
+impl HustlerImplementation of HustlerTrait {
+    fn get_initial_items(self: Hustler) -> InitialItems {
+        match self {
+            Hustler::Dragon => InitialItems {
+                Attack: ItemName::AK47,
+                Defense: ItemName::BloodStainedShirt,
+                Transport: ItemName::PlasticBag,
+                Speed: ItemName::AllBlackSneakers,
+            },
+            Hustler::Monkey => InitialItems {
+                Attack: ItemName::Chain,
+                Defense: ItemName::BulletProofVest,
+                Transport: ItemName::PlasticBag,
+                Speed: ItemName::AthleticTrainers,
+            },
+            Hustler::Rabbit => InitialItems {
+                Attack: ItemName::BaseballBat,
+                Defense: ItemName::TrenchCoat,
+                Transport: ItemName::PlasticBag,
+                Speed: ItemName::WorkBoots,
+            },
+        }
+    }
+
+    fn get_initial_stats(self: Hustler) -> InitialStats {
+        let initialItems: InitialItems = self.get_initial_items();
+
+        let initialAttackItem = initialItems.Attack;
+        let (initialAttack, _) = getStatValueAndCost(
+            initialAttackItem.impacting_stat(), initialAttackItem.initial_tier()
+        );
+
+        let initialDefenseItem = initialItems.Defense;
+        let (initialDefense, _) = getStatValueAndCost(
+            initialDefenseItem.impacting_stat(), initialDefenseItem.initial_tier()
+        );
+
+        let initialTransportItem = initialItems.Transport;
+        let (initialTransport, _) = getStatValueAndCost(
+            initialTransportItem.impacting_stat(), initialTransportItem.initial_tier()
+        );
+
+        let initialSpeedItem = initialItems.Speed;
+        let (initialSpeed, _) = getStatValueAndCost(
+            initialSpeedItem.impacting_stat(), initialSpeedItem.initial_tier()
+        );
+
+        InitialStats {
+            Attack: initialAttack,
+            Defense: initialDefense,
+            Transport: initialTransport,
+            Speed: initialSpeed,
+        }
+    }
+}
+

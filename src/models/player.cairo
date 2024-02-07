@@ -5,8 +5,8 @@ use dojo::database::introspect::{
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 
 use rollyourown::models::location::LocationEnum;
-use rollyourown::models::item::{Item, ItemEnum};
-
+use rollyourown::models::item::ItemStat;
+use rollyourown::systems::hustler::Hustler;
 
 #[derive(Model, Copy, Drop, Serde)]
 struct Player {
@@ -34,6 +34,9 @@ struct Player {
     wanted: u8,
     leaderboard_version: u32,
     game_over: bool,
+    hustler: Hustler,
+    can_use_shop: bool,
+    shop_last_used: usize,
 }
 
 #[generate_trait]
@@ -54,52 +57,6 @@ impl PlayerImpl of PlayerTrait {
         }
 
         true
-    }
-
-    fn get_item_count(self: Player, world: IWorldDispatcher) -> u8 {
-        let attack_item = get!(world, (self.game_id, self.player_id, ItemEnum::Attack), (Item));
-        let defense_item = get!(world, (self.game_id, self.player_id, ItemEnum::Defense), (Item));
-        let transport_item = get!(
-            world, (self.game_id, self.player_id, ItemEnum::Transport), (Item)
-        );
-        let speed_item = get!(world, (self.game_id, self.player_id, ItemEnum::Speed), (Item));
-
-        let mut total: u8 = if attack_item.level > 0 {
-            1
-        } else {
-            0
-        };
-        if defense_item.level > 0 {
-            total += 1;
-        }
-        if transport_item.level > 0 {
-            total += 1;
-        }
-        if speed_item.level > 0 {
-            total += 1;
-        }
-
-        total
-    }
-
-    fn get_attack(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Attack), (Item));
-        self.attack + item.value
-    }
-
-    fn get_defense(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Defense), (Item));
-        self.defense + item.value
-    }
-
-    fn get_transport(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Transport), (Item));
-        self.transport + item.value
-    }
-
-    fn get_speed(self: Player, world: IWorldDispatcher) -> usize {
-        let item = get!(world, (self.game_id, self.player_id, ItemEnum::Speed), (Item));
-        self.speed + item.value
     }
 }
 
@@ -150,5 +107,14 @@ impl PlayerStatusIntoFelt252 of Into<PlayerStatus, felt252> {
             PlayerStatus::BeingArrested => 'BeingArrested',
             PlayerStatus::AtPawnshop => 'AtPawnshop',
         }
+    }
+}
+
+fn increase_player_stat(ref player: Player, stat: ItemStat, value: usize) {
+    match stat {
+        ItemStat::DMG => player.attack += value,
+        ItemStat::DEF => player.defense += value,
+        ItemStat::SPD => player.speed += value,
+        ItemStat::INV => player.transport += value,
     }
 }

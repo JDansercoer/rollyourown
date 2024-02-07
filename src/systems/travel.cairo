@@ -171,12 +171,11 @@ mod travel {
 
             let mut player: Player = get!(world, (game_id, player_id).into(), Player);
             assert(player.game_over == false, 'already game_over');
-            
+
             ryo::game_over(self.world(), ref player);
 
             set!(world, (player));
         }
-
     }
 }
 
@@ -184,7 +183,6 @@ use rollyourown::models::game::{Game};
 use rollyourown::models::player::{Player, PlayerTrait, PlayerStatus};
 use rollyourown::utils::settings::{RiskSettings, RiskSettingsImpl};
 use rollyourown::utils::settings::{ShopSettings, ShopSettingsImpl};
-use rollyourown::utils::shop::ShopImpl;
 use rollyourown::utils::risk::{RiskTrait, RiskImpl};
 use rollyourown::utils::market;
 use rollyourown::utils::math::{MathTrait, MathImpl, MathImplU8};
@@ -196,31 +194,6 @@ use super::travel::travel::MarketEvent;
 fn on_turn_end(
     world: IWorldDispatcher, ref randomizer: Random, game: @Game, ref player: Player
 ) -> bool {
-    let shop_settings = ShopSettingsImpl::get(*game.game_mode);
-
-    // check if can access pawnshop
-    if shop_settings.is_open(@player) {
-        if player.status == PlayerStatus::AtPawnshop {
-            // exit pawnshop 
-            player.status = PlayerStatus::Normal;
-        } else {
-            // force pawnshop
-            player.status = PlayerStatus::AtPawnshop;
-            // emit raw event AtPawnshop
-            world
-                .emit_raw(
-                    array![
-                        selector!("AtPawnshop"), (*game.game_id).into(), player.player_id.into()
-                    ],
-                    array![]
-                );
-
-            // save player
-            set!(world, (player));
-            return false;
-        };
-    }
-
     // update location
     player.location_id = player.next_location_id;
 
@@ -236,6 +209,12 @@ fn on_turn_end(
 
     // update turn
     player.turn += 1;
+
+    if !player.can_use_shop {
+        if player.turn - player.shop_last_used >= 4 {
+            player.can_use_shop = true;
+        }
+    }
 
     // save player
     set!(world, (player));

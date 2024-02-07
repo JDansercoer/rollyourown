@@ -11,7 +11,6 @@ export enum WorldEvents {
   GameCreated = "0x230f942bb2087887c3b1dd964c716614bb6df172214f22409fefb734d96a4d2",
   PlayerJoined = "0x214916ce0265d355fd91110809ffba7b5e672b108a8beea3dd235818431264b",
   BoughtItem = "0x96f1e086de05db8162b5bf8e95b3ff061eeb8a5a88750a793a297379dd74ea",
-  DroppedItem = "0x2abc912df1c0f1fee176c373767d13b5e7e1fcdd11f8e44714334335b1ed653",
   Bought = "0x20cb8131637de1953a75938db3477cc6b648e5ed255f5b3fe3f0fb9299f0afc",
   Sold = "0x123e760cef925d0b4f685db5e1ac87aadaf1ad9f8069122a5bb03353444c386",
   Traveled = "0x2c4d9d5da873550ed167876bf0bc2ae300ce1db2eeff67927a85693680a2328",
@@ -66,15 +65,11 @@ export interface PlayerJoinedData {
 export interface BoughtItemData {
   game_id: RecsType.Number;
   player_id: RecsType.String;
-  item_id: RecsType.String;
+  item_slot: RecsType.String;
   level: RecsType.Number;
+  item_name: RecsType.BigInt;
+  upgrade_name: RecsType.BigInt;
   cost: RecsType.Number;
-}
-
-export interface DroppedItemData {
-  game_id: RecsType.Number;
-  player_id: RecsType.String;
-  item_id: RecsType.String;
 }
 
 export interface BoughtData {

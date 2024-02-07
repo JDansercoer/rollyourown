@@ -147,13 +147,6 @@ const onPlayerEntityRelatedData = ({ data }: { data: World__Subscription }) => {
       // console.log(`updated : Drug`);
     }
 
-    if (model && model.__typename === "Item") {
-      usePlayerEntityStore.setState((state) => ({
-        playerEntity: state.playerEntity?.updateItem(model as unknown as Item),
-      }));
-      // console.log(`updated : Item`);
-    }
-
     if (model && model.__typename === "Encounter") {
       usePlayerEntityStore.setState((state) => ({
         playerEntity: state.playerEntity?.updateEncounter(model as unknown as Encounter),

@@ -1,16 +1,15 @@
-import { Icon, IconProps } from "..";
+import { Icon as ChakraIcon } from "@chakra-ui/react";
+import { IconProps } from "..";
 
-export const Fannypack = (props: IconProps) => {
+export const FannyPack = ({ ...props }: IconProps) => {
   return (
-    <Icon viewBox="0 0 24 24" {...props}>
-      <>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M14.3948 5.59924H18.4008V6.39884H19.2004V7.19844H20V9.60524H19.2004V12.004H18.4008V15.2024H17.6012V16.8016H16.8016V17.6012H15.2024V18.4008H11.996V17.6012H10.3968V16.8016H8.7976V16.002H7.998V15.2024H7.1984V14.4028H5.5992V13.6032H4.7996V12.8036H4V9.59725H4.7996V8.79764H5.5992V7.99804H7.1984V7.19844H10.3968V6.39884H14.3948V5.59924ZM5.60719 11.1964H4.80759V10.4048H5.60719V9.60524H7.20639V8.80564H10.4048V8.00604H14.4028V7.20644H18.3928V7.99804H17.5932V8.79764H15.994V9.59725H13.5952V10.3968H7.998V11.1964H6.3988V11.996H5.60719V11.1964ZM16.7936 11.996H15.2024V11.2044H16.7936V11.996ZM15.1944 12.004V12.7956H11.1964V13.5952H10.4048V12.7956H9.60519V12.004H15.1944Z"
-          fill="currentColor"
-        />
-      </>
-    </Icon>
+    <ChakraIcon viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path
+        fill="#11ED83"
+        fillRule="evenodd"
+        d="M14.395 5.6H18.4v.799h.8v.8H20v2.406h-.8v2.399h-.8v3.198h-.799v1.6h-.8v.8h-1.599v.799h-3.206v-.8h-1.6v-.8H8.799v-.799h-.8v-.8h-.8v-.8H5.6v-.799h-.8v-.8H4V9.598h.8v-.8h.8v-.799h1.598v-.8h3.199v-.8h3.998V5.6Zm-8.788 5.596h-.8v-.791h.8v-.8h1.6v-.8h3.198v-.799h3.998v-.8h3.99v.792h-.8v.8h-1.599v.8h-2.399v.799H7.998v.8h-1.6v.799h-.79v-.8Zm11.187.8h-1.592v-.792h1.592v.792Zm-1.6.008v.792h-3.998v.8h-.791v-.8h-.8v-.792h5.59Z"
+        clipRule="evenodd"
+      />
+    </ChakraIcon>
   );
 };

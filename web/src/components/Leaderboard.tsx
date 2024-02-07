@@ -1,28 +1,8 @@
-import {
-  StyleProps,
-  Text,
-  HStack,
-  UnorderedList,
-  Box,
-  Button,
-  ListItem,
-  ListProps,
-  Modal,
-  ModalOverlay,
-  useDisclosure,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  VStack,
-} from "@chakra-ui/react";
-import Input from "@/components/Input";
+import { StyleProps, Text, HStack, UnorderedList, Box, Button, ListItem, ListProps, VStack } from "@chakra-ui/react";
 
-import React, { useCallback, useState, useEffect, useRef } from "react";
-import { Avatar } from "./avatar/Avatar";
-import { genAvatarFromId } from "./avatar/avatars";
+import React, { useState, useEffect, useRef } from "react";
 import colors from "@/theme/colors";
-import { Score, useGlobalScoresIninite } from "@/dojo/queries/useGlobalScores";
+import { useGlobalScoresIninite } from "@/dojo/queries/useGlobalScores";
 import { useDojoContext } from "@/dojo/hooks/useDojoContext";
 import { useRouter } from "next/router";
 import { formatCash } from "@/utils/ui";
@@ -30,7 +10,8 @@ import { Arrow, Skull } from "./icons";
 import { useRyoMetas } from "@/dojo/queries/useRyoMetas";
 import { useLeaderboardMetas } from "@/dojo/queries/useLeaderboardMetas";
 import Countdown from "react-countdown";
-import { profanity } from '@2toad/profanity';
+import { profanity } from "@2toad/profanity";
+import { HustlerThumbnail } from "./hustler";
 
 const renderer = ({
   days,
@@ -49,10 +30,10 @@ const renderer = ({
     return <Text>RESETS NEXT GAME</Text>;
   } else {
     if (Number.isNaN(days)) {
-      days = 4
-      hours = 20
-      minutes = 4
-      seconds = 20
+      days = 4;
+      hours = 20;
+      minutes = 4;
+      seconds = 20;
     }
     return (
       <HStack textStyle="subheading" fontSize="12px">
@@ -66,9 +47,8 @@ const renderer = ({
   }
 };
 
-const Leaderboard = ({ nameEntry, ...props }: { nameEntry?: boolean } & StyleProps & ListProps) => {
+const Leaderboard = ({ nameEntry }: { nameEntry?: boolean } & StyleProps & ListProps) => {
   const router = useRouter();
-  const gameId = router.query.gameId as string;
   const { account } = useDojoContext();
   const { ryoMetas } = useRyoMetas();
 
@@ -77,9 +57,6 @@ const Leaderboard = ({ nameEntry, ...props }: { nameEntry?: boolean } & StylePro
 
   const { leaderboardMetas } = useLeaderboardMetas(selectedVersion);
   const { scores, resetQuery, refetch, hasNextPage, fetchNextPage } = useGlobalScoresIninite(selectedVersion, 10);
-
-  const [targetGameId, setTargetGameId] = useState<string>("");
-  const [name, setName] = useState<string>("");
 
   const listRef = useRef(null);
 
@@ -178,7 +155,7 @@ const Leaderboard = ({ nameEntry, ...props }: { nameEntry?: boolean } & StylePro
                       {score.dead ? (
                         <Skull color={avatarColor} hasCrown={index === 0} />
                       ) : (
-                        <Avatar name={genAvatarFromId(score.avatarId)} color={avatarColor} hasCrown={index === 0} />
+                        <HustlerThumbnail hustler={score.hustler} self={isOwn} />
                       )}
                     </Box>
 

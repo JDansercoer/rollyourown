@@ -238,7 +238,6 @@ export default function Travel() {
         bottom="0"
         right="0"
         spacing="0"
-        pointerEvents="none"
         justify="flex-end"
         background="linear-gradient(transparent, 10%, #172217, 25%, #172217)"
         gap="14px"

@@ -1,9 +1,10 @@
-import { PlayerEdge, useGlobalScoresQuery, useInfiniteGlobalScoresQuery } from "@/generated/graphql";
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { PlayerEdge, useInfiniteGlobalScoresQuery } from "@/generated/graphql";
+import { useEffect, useState } from "react";
 
 import { shortString } from "starknet";
 import { SCALING_FACTOR } from "../constants";
 import { useQueryClient } from "react-query";
+import { Hustler } from "../types";
 
 export type Score = {
   gameId: string;
@@ -13,6 +14,7 @@ export type Score = {
   cash: number;
   dead: boolean;
   health: number;
+  hustler: Hustler;
 };
 
 export class GlobalScores {
@@ -35,6 +37,7 @@ export class GlobalScores {
         cash: Math.floor(Number(BigInt(edge.node?.cash) / BigInt(SCALING_FACTOR))),
         dead: Number(edge.node?.health) === 0,
         health: Number(edge.node?.health),
+        hustler: Hustler[edge.node?.hustler as keyof typeof Hustler],
       };
     });
   }
@@ -43,19 +46,17 @@ export class GlobalScores {
 export const useGlobalScoresIninite = (version?: number, limit?: number) => {
   const [scores, setScores] = useState<Score[]>([]);
   const [hasNextPage, setHasNextPage] = useState(false);
-  
 
   const queryClient = useQueryClient();
   // Gets top 10
-  const { data, isFetched, refetch,/* hasNextPage,*/ fetchNextPage, ...props } = useInfiniteGlobalScoresQuery(
+  const { data, isFetched, refetch, /* hasNextPage,*/ fetchNextPage, ...props } = useInfiniteGlobalScoresQuery(
     {
       limit: limit || 10,
       version: version || 1,
     },
     {
-      
       getNextPageParam: (lastPage) => {
-        if(!lastPage) return {}
+        if (!lastPage) return {};
         const edgesCount = lastPage.playerModels?.edges?.length || 0;
         if (edgesCount === 0) return undefined;
         const lastItem = lastPage.playerModels?.edges![edgesCount - 1];
@@ -68,11 +69,11 @@ export const useGlobalScoresIninite = (version?: number, limit?: number) => {
   );
 
   const resetQuery = async () => {
-    setHasNextPage(false)
+    setHasNextPage(false);
     setScores([]);
-    queryClient.invalidateQueries({ queryKey: ["GlobalScores.infinite"] })
-    queryClient.resetQueries({ queryKey: ["GlobalScores.infinite"] })
-    queryClient.removeQueries({ queryKey: ["GlobalScores.infinite"] })
+    queryClient.invalidateQueries({ queryKey: ["GlobalScores.infinite"] });
+    queryClient.resetQueries({ queryKey: ["GlobalScores.infinite"] });
+    queryClient.removeQueries({ queryKey: ["GlobalScores.infinite"] });
   };
 
   useEffect(() => {
@@ -83,15 +84,14 @@ export const useGlobalScoresIninite = (version?: number, limit?: number) => {
     if (new_scores) {
       setScores(scores.concat(new_scores));
     }
-   
   }, [data?.pages, version /*, scores*/]);
 
   useEffect(() => {
     if (data?.pages.length == 0) return;
     const pageCount = data?.pages.length || 0;
-    const hasNext = scores.length < (data?.pages[pageCount-1].playerModels?.total_count || 0)
-    setHasNextPage(hasNext)
-  }, [ scores]);
+    const hasNext = scores.length < (data?.pages[pageCount - 1].playerModels?.total_count || 0);
+    setHasNextPage(hasNext);
+  }, [scores]);
 
   return {
     scores,

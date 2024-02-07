@@ -9,17 +9,30 @@ import {
   getLocationById,
   getOutcomeInfo,
   getOutcomeName,
-  getShopItem,
-  getShopItemByType,
 } from "@/dojo/helpers";
 import { useSystems } from "@/dojo/hooks/useSystems";
 
-import { HStack, Heading, ListItem, Text, UnorderedList, VStack, Box, Tooltip, Image } from "@chakra-ui/react";
+import {
+  HStack,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+  VStack,
+  Box,
+  Tooltip,
+  Image,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
 import { IsMobile, formatCash } from "@/utils/ui";
-import { Bag, DollarBag, Event } from "@/components/icons";
+import { Bag, DollarBag, Event, Home } from "@/components/icons";
 import { usePlayerLogs } from "@/dojo/queries/usePlayerLogs";
 import { GameCreatedData, PlayerJoinedData, WorldEvents } from "@/dojo/generated/contractEvents";
 import {
@@ -38,7 +51,9 @@ import {
 } from "@/dojo/events";
 import { Action, Outcome, PlayerStatus } from "@/dojo/types";
 import { SCALING_FACTOR } from "@/dojo/constants";
-import { Profile } from "@/components/ProfileButton";
+import Profile from "@/components/profile/Stats";
+import Loadout from "@/components/profile/Loadout";
+import { getIconForItem } from "@/utils/items";
 
 type LogByDay = {
   day: number;
@@ -132,7 +147,7 @@ export default function Logs() {
       //   imageSrc: "/images/will-smith-with-attitude.png",
       // }}
       // CustomLeftPanel={!playerId ? CustomLeftPanel : undefined}
-      CustomLeftPanel={CustomLeftPanel}
+      CustomLeftPanel={Profile}
       footer={
         <Footer>
           <Button
@@ -152,23 +167,28 @@ export default function Logs() {
       }
       rigthPanelMaxH={rigthPanelMaxH}
     >
-      <VStack w="full" ref={listRef}>
-        {logs && logs.map((log) => /*log.logs.length > 0 &&*/ renderDay(log))}
-      </VStack>
+      <Tabs variant="unstyled" w="full">
+        <TabList>
+          <Tab>Loadout</Tab>
+          <Tab>Activity</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            <Box pt="30px">
+              <Loadout />
+            </Box>
+          </TabPanel>
+          <TabPanel>
+            <VStack w="full" ref={listRef}>
+              {logs && logs.map((log) => /*log.logs.length > 0 &&*/ renderDay(log))}
+            </VStack>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Layout>
   );
 }
-
-const CustomLeftPanel = () => {
-  return (
-    <VStack w="full" h="full" justifyContent="center" alignItems="center" flex="1">
-      <Heading fontSize={["36px", "48px"]} fontWeight="400" mb={["0px", "20px"]}>
-        Hustler Log
-      </Heading>
-      <Profile />
-    </VStack>
-  );
-};
 
 function renderDay(log: LogByDay) {
   return (
@@ -208,7 +228,7 @@ function renderDay(log: LogByDay) {
               break;
 
             case WorldEvents.GameOver:
-             // return renderGameOver(i as GameOverEventData, key);
+              // return renderGameOver(i as GameOverEventData, key);
               break;
 
             case WorldEvents.AtPawnshop:
@@ -259,17 +279,8 @@ function renderAtPawnshop(log: GameOverEventData, key: string) {
 }
 
 function renderBoughtItem(log: BoughtItemEventData, key: string) {
-  const item = getShopItemByType(Number(log.itemId), Number(log.level));
-  return (
-    <Line
-      key={key}
-      icon={item.icon}
-      text={`Bought ${item.name}`}
-      total={`- ${formatCash(log.cost)}`}
-      color="yellow.400"
-      iconColor="yellow.400"
-    />
-  );
+  const Icon = getIconForItem(log.item_name);
+  return <Line key={key} icon={Icon} text={`Bought ${log.upgrade_name}`} total={`- ${formatCash(log.cost)}`} />;
 }
 
 function renderBought(log: BoughtEventData, key: string) {
