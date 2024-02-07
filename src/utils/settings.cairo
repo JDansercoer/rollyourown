@@ -1,7 +1,7 @@
 use rollyourown::constants::SCALING_FACTOR;
 use rollyourown::models::game::GameMode;
 use rollyourown::models::drug::DrugEnum;
-use rollyourown::models::itemNew::{ItemTier, ItemName, ItemMetaImpl, ItemStat};
+use rollyourown::models::item::{ItemTier, ItemName, ItemMetaImpl, ItemStat};
 use rollyourown::models::player::Player;
 use rollyourown::systems::hustler::Hustler;
 

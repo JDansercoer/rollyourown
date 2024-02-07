@@ -1,6 +1,6 @@
 use starknet::ContractAddress;
 use rollyourown::models::game::{GameMode};
-use rollyourown::models::itemNew::ItemTier;
+use rollyourown::models::item::ItemTier;
 use rollyourown::systems::hustler::Hustler;
 
 #[starknet::interface]
@@ -35,7 +35,7 @@ mod lobby {
     use rollyourown::models::location::{Location, LocationTrait, LocationEnum};
     use rollyourown::models::market::{MarketTrait};
     use rollyourown::models::leaderboard::{Leaderboard};
-    use rollyourown::models::itemNew::{ItemMetaImpl};
+    use rollyourown::models::item::{ItemMetaImpl};
     use rollyourown::systems::hustler::{Hustler, assignHustlerItemsToPlayer};
 
     use rollyourown::utils::settings::{

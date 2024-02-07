@@ -1,6 +1,6 @@
 use starknet::ContractAddress;
 use rollyourown::models::player::{Player};
-use rollyourown::models::itemNew::{ItemSlot, ItemStat};
+use rollyourown::models::item::{ItemSlot, ItemStat};
 
 const MAX_UPGRADE_COUNT: u8 = 3;
 
@@ -36,8 +36,8 @@ mod shop {
     use rollyourown::utils::settings::{ShopSettings, ShopSettingsImpl, getStatValueAndCost};
     use rollyourown::utils::random::{RandomImpl};
     use rollyourown::systems::travel::on_turn_end;
-    use rollyourown::models::itemNew::{
-        NextItemTierImpl, ItemMetaImpl, get_items_for_player, ItemSlot, ItemNew, get_stat_increase
+    use rollyourown::models::item::{
+        NextItemTierImpl, ItemMetaImpl, get_items_for_player, ItemSlot, Item, get_stat_increase
     };
 
     use super::{IShop, AvailableItem, MAX_UPGRADE_COUNT};
@@ -91,7 +91,7 @@ mod shop {
             let player_id = get_caller_address();
             let mut player = get!(world, (game_id, player_id), Player);
 
-            let mut item = get!(world, (game_id, player_id, item_slot), (ItemNew));
+            let mut item = get!(world, (game_id, player_id, item_slot), (Item));
             let shop_settings = ShopSettingsImpl::get(game.game_mode);
 
             let (_, upgrade_cost) = getStatValueAndCost(item.stat, item.tier.nextTier());

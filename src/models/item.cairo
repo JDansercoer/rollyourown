@@ -8,7 +8,7 @@ use rollyourown::models::player::Player;
 use rollyourown::utils::settings::getStatValueAndCost;
 
 #[derive(Model, Copy, Drop, Serde)]
-struct ItemNew {
+struct Item {
     #[key]
     game_id: u32,
     #[key]
@@ -259,25 +259,25 @@ impl ItemMetaImpl of ItemMeta {
 
 fn get_items_for_player(
     world: IWorldDispatcher, game_id: u32, player_id: ContractAddress
-) -> Array<ItemNew> {
-    let mut items: Array<ItemNew> = array![];
+) -> Array<Item> {
+    let mut items: Array<Item> = array![];
 
-    let weapon = get!(world, (game_id, player_id, ItemSlot::Weapon), (ItemNew));
+    let weapon = get!(world, (game_id, player_id, ItemSlot::Weapon), (Item));
     items.append(weapon);
 
-    let shirt = get!(world, (game_id, player_id, ItemSlot::Shirt), (ItemNew));
+    let shirt = get!(world, (game_id, player_id, ItemSlot::Shirt), (Item));
     items.append(shirt);
 
-    let shoe = get!(world, (game_id, player_id, ItemSlot::Shoe), (ItemNew));
+    let shoe = get!(world, (game_id, player_id, ItemSlot::Shoe), (Item));
     items.append(shoe);
 
-    let bag = get!(world, (game_id, player_id, ItemSlot::Bag), (ItemNew));
+    let bag = get!(world, (game_id, player_id, ItemSlot::Bag), (Item));
     items.append(bag);
 
     items
 }
 
-fn get_stat_increase(item: ItemNew) -> usize {
+fn get_stat_increase(item: Item) -> usize {
     let (currentStat, _) = getStatValueAndCost(item.stat, item.tier);
     let (nextStat, _) = getStatValueAndCost(item.stat, item.tier.nextTier());
 

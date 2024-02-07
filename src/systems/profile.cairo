@@ -1,4 +1,4 @@
-use rollyourown::models::itemNew::{ItemTier, ItemSlot, ItemNew};
+use rollyourown::models::item::{ItemTier, ItemSlot, Item};
 use starknet::ContractAddress;
 
 #[derive(Copy, Drop, Serde)]
@@ -28,7 +28,7 @@ trait IProfile<TContractState> {
 mod profile {
     use starknet::ContractAddress;
     use super::{IProfile, PowerStats};
-    use rollyourown::models::itemNew::{ItemTierIntoU8, ItemSlot, ItemNew, ItemMetaImpl};
+    use rollyourown::models::item::{ItemTierIntoU8, ItemSlot, Item, ItemMetaImpl};
 
     #[external(v0)]
     impl ProfileImpl of IProfile<ContractState> {
@@ -37,16 +37,16 @@ mod profile {
         ) -> PowerStats {
             let world = self.world();
 
-            let weapon = get!(world, (game_id, player_id, ItemSlot::Weapon), (ItemNew));
+            let weapon = get!(world, (game_id, player_id, ItemSlot::Weapon), (Item));
             let base_dmg_tier: u8 = weapon.name.initial_tier().into();
             let current_dmg_tier: u8 = weapon.tier.into();
-            let shirt = get!(world, (game_id, player_id, ItemSlot::Shirt), (ItemNew));
+            let shirt = get!(world, (game_id, player_id, ItemSlot::Shirt), (Item));
             let base_def_tier: u8 = shirt.name.initial_tier().into();
             let current_def_tier: u8 = shirt.tier.into();
-            let shoe = get!(world, (game_id, player_id, ItemSlot::Shoe), (ItemNew));
+            let shoe = get!(world, (game_id, player_id, ItemSlot::Shoe), (Item));
             let base_spd_tier: u8 = shoe.name.initial_tier().into();
             let current_spd_tier: u8 = shoe.tier.into();
-            let bag = get!(world, (game_id, player_id, ItemSlot::Bag), (ItemNew));
+            let bag = get!(world, (game_id, player_id, ItemSlot::Bag), (Item));
             let base_inv_tier: u8 = bag.name.initial_tier().into();
             let current_inv_tier: u8 = bag.tier.into();
 

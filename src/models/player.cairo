@@ -5,7 +5,7 @@ use dojo::database::introspect::{
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 
 use rollyourown::models::location::LocationEnum;
-use rollyourown::models::itemNew::ItemStat;
+use rollyourown::models::item::ItemStat;
 use rollyourown::systems::hustler::Hustler;
 
 #[derive(Model, Copy, Drop, Serde)]

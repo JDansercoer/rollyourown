@@ -3,7 +3,7 @@ mod market;
 mod player;
 mod drug;
 mod location;
-mod itemNew;
+mod item;
 mod encounter;
 mod leaderboard;
 mod ryo;

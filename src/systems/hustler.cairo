@@ -1,4 +1,4 @@
-use rollyourown::models::itemNew::{ItemTier, ItemNew, ItemMetaImpl};
+use rollyourown::models::item::{ItemTier, Item, ItemMetaImpl};
 
 #[derive(Copy, Drop, Serde, Introspect, PartialEq)]
 enum Hustler {
@@ -41,7 +41,7 @@ mod hustler {
     use super::{IHustler, AvailableHustlers, Hustler, InitialTiers, Items};
 
     use rollyourown::utils::settings::HustlerImplementation;
-    use rollyourown::models::itemNew::ItemMetaImpl;
+    use rollyourown::models::item::ItemMetaImpl;
 
     #[external(v0)]
     impl HustlerImpl of IHustler<ContractState> {
@@ -98,7 +98,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
 
     let initialItems = hustler.get_initial_items();
 
-    let attackItem = ItemNew {
+    let attackItem = Item {
         game_id: player.game_id,
         player_id: player.player_id,
         name: initialItems.Attack,
@@ -110,7 +110,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
 
     set!(world, (attackItem));
 
-    let defenseItem = ItemNew {
+    let defenseItem = Item {
         game_id: player.game_id,
         player_id: player.player_id,
         name: initialItems.Defense,
@@ -122,7 +122,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
 
     set!(world, (defenseItem));
 
-    let transportItem = ItemNew {
+    let transportItem = Item {
         game_id: player.game_id,
         player_id: player.player_id,
         name: initialItems.Transport,
@@ -134,7 +134,7 @@ fn assignHustlerItemsToPlayer(world: IWorldDispatcher, ref player: Player, hustl
 
     set!(world, (transportItem));
 
-    let speedItem = ItemNew {
+    let speedItem = Item {
         game_id: player.game_id,
         player_id: player.player_id,
         name: initialItems.Speed,
