@@ -1,6 +1,5 @@
 use starknet::ContractAddress;
 use rollyourown::models::player::{Player};
-use rollyourown::models::item::{ItemEnum};
 use rollyourown::models::itemNew::{ItemSlot, ItemStat};
 
 const MAX_UPGRADE_COUNT: u8 = 3;
@@ -19,7 +18,6 @@ trait IShop<TContractState> {
     fn is_open(self: @TContractState, game_id: u32, player_id: ContractAddress) -> bool;
     fn skip(self: @TContractState, game_id: u32);
     fn buy_item(self: @TContractState, game_id: u32, item_slot: ItemSlot);
-    //fn drop_item(self: @TContractState, game_id: u32, item_id: ItemEnum,);
     fn available_items(
         self: @TContractState, game_id: u32, player_id: ContractAddress
     ) -> Span<AvailableItem>;
@@ -35,7 +33,6 @@ mod shop {
     use rollyourown::models::player::{Player, PlayerTrait, PlayerStatus, increase_player_stat};
     use rollyourown::models::location::{Location, LocationEnum};
     use rollyourown::models::game::{Game, GameTrait};
-    use rollyourown::models::item::{Item, ItemTrait, ItemEnum};
     use rollyourown::utils::settings::{ShopSettings, ShopSettingsImpl, getStatValueAndCost};
     use rollyourown::utils::random::{RandomImpl};
     use rollyourown::systems::travel::on_turn_end;
@@ -49,7 +46,6 @@ mod shop {
     #[derive(Drop, starknet::Event)]
     enum Event {
         BoughtItem: BoughtItem,
-        DroppedItem: DroppedItem
     }
 
     #[derive(Drop, starknet::Event)]
@@ -63,15 +59,6 @@ mod shop {
         item_name: felt252,
         upgrade_name: felt252,
         cost: u32
-    }
-
-    #[derive(Drop, starknet::Event)]
-    struct DroppedItem {
-        #[key]
-        game_id: u32,
-        #[key]
-        player_id: ContractAddress,
-        item_id: ItemEnum,
     }
 
     #[external(v0)]
@@ -144,30 +131,6 @@ mod shop {
                 }
             );
         }
-
-        // fn drop_item(self: @ContractState, game_id: u32, item_id: ItemEnum,) {
-        //     let world = self.world();
-        //     let game = get!(world, game_id, (Game));
-        //     let player_id = get_caller_address();
-        //     let mut player = get!(world, (game_id, player_id), Player);
-
-        //     self.assert_can_access_shop(@game, @player);
-
-        //     let mut item = get!(world, (game_id, player_id, item_id), Item);
-        //     assert(item.level > 0, '404 item not found');
-
-        //     // update item
-        //     item.level = 0;
-        //     item.name = '';
-        //     item.value = 0;
-        //     set!(world, (item));
-
-        //     on_turn_end(world, @game, ref player);
-        //     set!(world, (player));
-
-        //     // emit event
-        //     emit!(world, DroppedItem { game_id, player_id, item_id });
-        // }
 
         fn available_items(
             self: @ContractState, game_id: u32, player_id: ContractAddress
