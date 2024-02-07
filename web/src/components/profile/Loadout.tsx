@@ -10,7 +10,13 @@ export default function Loadout() {
   if (!playerEntity || !playerStats) return null;
 
   return (
-    <Grid templateColumns="36px max-content max-content" columnGap={4} rowGap={6} justifyContent="center" w="full">
+    <Grid
+      templateColumns={["36px 1fr", "36px max-content max-content"]}
+      columnGap={4}
+      rowGap={[2, 6]}
+      justifyContent="center"
+      w="full"
+    >
       {STATS.map((stat) => {
         const statKey = `${stat.toLowerCase()}` as keyof typeof playerStats;
         const statInfo = playerStats[statKey];
@@ -19,8 +25,8 @@ export default function Loadout() {
 
         return (
           <>
-            <Icon boxSize={9} />
-            <VStack alignItems="stretch" spacing={0} paddingRight={16}>
+            <Icon boxSize={9} gridRow="span 2" />
+            <VStack alignItems="stretch" spacing={0} paddingRight={[0, 16]}>
               <HStack justifyContent="space-between" fontFamily="broken-console" fontSize="10px" color="neon.500">
                 <Text>Weapon</Text>
                 <Text>{stat}</Text>
@@ -36,7 +42,7 @@ export default function Loadout() {
                 );
               })}
             </VStack>
-            <Box h="px" bg="neon.700" gridColumn="1 / -1" />
+            <Box h="px" bg="neon.700" gridColumn="1 / -1" my={[3, 0]} />
           </>
         );
       })}
