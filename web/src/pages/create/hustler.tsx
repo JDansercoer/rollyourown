@@ -153,7 +153,16 @@ export default function HustlerPage() {
             const selectedHustlerName: string = selectedHustler.hustler.activeVariant();
 
             return (
-              <HStack spacing={8}>
+              <Grid
+                templateColumns={["1fr max-content 1fr", "1fr max-content max-content 1fr"]}
+                templateAreas={[
+                  `"left hustler right"
+                    "stats stats stats"`,
+                  "unset",
+                ]}
+                gap={12}
+                alignItems="center"
+              >
                 <Arrow
                   direction="left"
                   cursor="pointer"
@@ -162,33 +171,38 @@ export default function HustlerPage() {
                   onClick={() => {
                     setSelectedHustlerIndex((selectedHustlerIndex - 1) % availableHustlers.length);
                   }}
-                ></Arrow>
-                <HStack spacing={12}>
-                  <Hustler hustler={HustlerType[selectedHustlerName as keyof typeof HustlerType]} w={100} h={270} />
-                  <Grid gridTemplateColumns="165px max-content" columnGap={8} rowGap={4} alignItems="center">
-                    {stats.map((singleStat) => {
-                      const { name, stat, slot } = singleStat;
+                  justifySelf="end"
+                />
+                <Hustler hustler={HustlerType[selectedHustlerName as keyof typeof HustlerType]} w={100} h={270} />
+                <Grid
+                  gridTemplateColumns="165px max-content"
+                  columnGap={8}
+                  rowGap={4}
+                  alignItems="center"
+                  gridArea={["stats", "unset"]}
+                >
+                  {stats.map((singleStat) => {
+                    const { name, stat, slot } = singleStat;
 
-                      const itemName = shortString.decodeShortString(selectedHustler.items[`${name}Item`]);
-                      const initialTier = selectedHustler.initialTiers[`${name}Tier`].activeVariant();
-                      const initialPower = parseInt(initialTier.match(/[+-]?\d+/));
+                    const itemName = shortString.decodeShortString(selectedHustler.items[`${name}Item`]);
+                    const initialTier = selectedHustler.initialTiers[`${name}Tier`].activeVariant();
+                    const initialPower = parseInt(initialTier.match(/[+-]?\d+/));
 
-                      return (
-                        <React.Fragment key={name}>
-                          <VStack spacing="px" alignItems="flex-start">
-                            <Text fontFamily="broken-console" fontSize="10px" color="neon.500" lineHeight={1}>
-                              {slot}
-                            </Text>
-                            <Text fontSize="14px" lineHeight={1}>
-                              {itemName}
-                            </Text>
-                          </VStack>
-                          <PowerMeter text={stat} basePower={initialPower} maxPower={6} />
-                        </React.Fragment>
-                      );
-                    })}
-                  </Grid>
-                </HStack>
+                    return (
+                      <React.Fragment key={name}>
+                        <VStack spacing="px" alignItems="flex-start">
+                          <Text fontFamily="broken-console" fontSize="10px" color="neon.500" lineHeight={1}>
+                            {slot}
+                          </Text>
+                          <Text fontSize="14px" lineHeight={1}>
+                            {itemName}
+                          </Text>
+                        </VStack>
+                        <PowerMeter text={stat} basePower={initialPower} maxPower={6} />
+                      </React.Fragment>
+                    );
+                  })}
+                </Grid>
                 <Arrow
                   direction="right"
                   cursor="pointer"
@@ -197,8 +211,8 @@ export default function HustlerPage() {
                   onClick={() => {
                     setSelectedHustlerIndex((selectedHustlerIndex + 1) % availableHustlers.length);
                   }}
-                ></Arrow>
-              </HStack>
+                />
+              </Grid>
             );
           })()}
         </VStack>
