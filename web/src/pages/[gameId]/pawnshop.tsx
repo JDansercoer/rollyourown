@@ -50,9 +50,12 @@ export default function PawnShop() {
       const itemSlotValue = ItemSlot[selectedShopItem.slot as keyof typeof ItemSlot];
       const { hash, events } = await buyItem(gameId, itemSlotValue);
 
+      const icon = getIconForItem(selectedShopItem.name);
+
       toaster.toast({
         message: `${selectedShopItem.name} equiped!`,
         link: `http://amazing_explorer/${hash}`,
+        icon,
       });
 
       if (events) {
