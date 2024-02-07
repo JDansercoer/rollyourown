@@ -16,6 +16,7 @@ query GlobalScores($version: u32, $limit: Int, $cursor: Cursor) {
         health
         turn
         game_over
+        hustler
       }
       cursor
     }
