@@ -143,7 +143,7 @@ export default function PawnShop() {
                       textOverflow="ellipsis"
                       maxW="100%"
                     >
-                      {shopItem.upgrade_name} with a very long name
+                      {shopItem.upgrade_name}
                     </Text>
                     <Text fontSize="16px">${shopItem.upgrade_cost.toLocaleString()}</Text>
                   </Grid>
